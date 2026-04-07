@@ -1,0 +1,14 @@
+{
+    "context": "server",
+    "identifier": "com.lockyaw.tallboys",
+    "display_name": "Nuke & Orbital Rebalance Mod",
+    "description": "Rebalances nukes, anti-nukes, and orbital vs ground engagements.",
+    "author": "You",
+    "version": "0.0.1",
+    "build": "124635",
+    "category": [
+        "server",
+        "balance",
+        "units"
+    ]
+}
