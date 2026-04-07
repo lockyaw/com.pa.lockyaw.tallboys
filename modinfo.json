@@ -6,6 +6,7 @@
     "author": "You",
     "version": "0.0.1",
     "build": "124635",
+    "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
         "server",
         "balance",
