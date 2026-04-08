@@ -1,8 +1,8 @@
 {
     "context": "server",
-    "identifier": "com.lockyaw.tallboys",
-    "display_name": "Nuke & Orbital Rebalance Mod",
-    "description": "Rebalances nukes, anti-nukes, and orbital vs ground engagements.",
+    "identifier": "com.pa.lockyaw.tallboys",
+    "display_name": "Tallboys Ridiculous Rebalance Mod",
+    "description": "Drastically rebalances nukes, anti-nukes, and orbital vs ground engagements.",
     "author": "You",
     "version": "0.0.1",
     "build": "124635",
