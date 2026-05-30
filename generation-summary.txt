@@ -1,0 +1,86 @@
+[Nuclear Missile Launcher: 25% price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\nuke_launcher\nuke_launcher.json
+output: pa/units/land/nuke_launcher/nuke_launcher.json
+  build_metal_cost: 14400 -> 3600
+
+[Nuclear Missile: 25% price, 20% damage]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\nuke_launcher\nuke_launcher_ammo.json
+output: pa/units/land/nuke_launcher/nuke_launcher_ammo.json
+  build_metal_cost: 50000 -> 12500
+  damage: 33000 -> 6600
+  splash_damage: 33000 -> 6600
+  burn_damage: 200 -> 40
+
+[Anti-Nuke Launcher: 1/6 price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\anti_nuke_launcher\anti_nuke_launcher.json
+output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher.json
+  build_metal_cost: 12000 -> 2000
+
+[Anti-Nuke Missile: 1/8 price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\anti_nuke_launcher\anti_nuke_launcher_ammo.json
+output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json
+  build_metal_cost: 6750 -> 843.75
+
+[Helios: 10000 metal]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital.json
+output: pa/units/orbital/titan_orbital/titan_orbital.json
+  build_metal_cost: 30000 -> 10000
+
+[Helios beam: 25% damage]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_ammo.json
+output: pa/units/orbital/titan_orbital/titan_orbital_ammo.json
+  damage: 55 -> 13.75
+
+[support_platform: 200% price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\support_platform\support_platform.json
+output: pa/units/air/support_platform/support_platform.json
+  build_metal_cost: 4000 -> 8000
+
+[titan_bot: 70% health]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\titan_bot\titan_bot.json
+output: pa/units/land/titan_bot/titan_bot.json
+  max_health: 60000 -> 42000
+
+[titan_air: 130% damage]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\titan_air\titan_air_ammo.json
+output: pa/units/air/titan_air/titan_air_ammo.json
+  damage: 1500 -> 1950
+  splash_damage: 500 -> 650
+
+[Galata Turret: 115% damage]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\air_defense\air_defense_ammo.json
+output: pa/units/land/air_defense/air_defense_ammo.json
+  damage: 25 -> 28.75
+  splash_damage: 10 -> 11.5
+
+[tactical_missile_launcher: 110% price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\tactical_missile_launcher\tactical_missile_launcher.json
+output: pa/units/land/tactical_missile_launcher/tactical_missile_launcher.json
+  build_metal_cost: 1800 -> 1980
+
+[land_scout: 50% price, 200% speed]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\land_scout\land_scout.json
+output: pa/units/land/land_scout/land_scout.json
+  build_metal_cost: 75 -> 37.5
+  navigation.move_speed: 25 -> 50
+
+[teleporter: 150% health, 80% price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\land\teleporter\teleporter.json
+output: pa/units/land/teleporter/teleporter.json
+  max_health: 7000 -> 10500
+  build_metal_cost: 1000 -> 800
+
+[orbital_fabrication_bot: 300% health]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa\units\orbital\orbital_fabrication_bot\orbital_fabrication_bot.json
+output: pa/units/orbital/orbital_fabrication_bot/orbital_fabrication_bot.json
+  max_health: 50 -> 150
+
+[orbital_battleship: 18000 metal]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_battleship\orbital_battleship.json
+output: pa/units/orbital/orbital_battleship/orbital_battleship.json
+  build_metal_cost: 14000 -> 18000
+
+[tank_anti_nuke: 30% price]
+base: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tank_anti_nuke\tank_anti_nuke.json
+output: pa/units/land/tank_anti_nuke/tank_anti_nuke.json
+  build_metal_cost: 8000 -> 2400

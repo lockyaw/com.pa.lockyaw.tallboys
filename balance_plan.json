@@ -1,0 +1,234 @@
+{
+  "modinfo": {
+    "context": "server",
+    "identifier": "com.pa.lockyaw.tallboys",
+    "display_name": "Tallboys Ridiculous Rebalance Mod",
+    "description": "Rebalances nukes, anti-nukes, orbital titans, and selected unit costs, health, speed, and damage values.",
+    "author": "You",
+    "version": "0.0.5",
+    "build": "124635",
+    "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
+    "category": [
+      "server",
+      "balance",
+      "units"
+    ]
+  },
+  "actions": [
+    {
+      "name": "Nuclear Missile Launcher: 25% price",
+      "rel_path": "pa/units/land/nuke_launcher/nuke_launcher.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.25
+        }
+      ]
+    },
+    {
+      "name": "Nuclear Missile: 25% price, 20% damage",
+      "rel_path": "pa/units/land/nuke_launcher/nuke_launcher_ammo.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.25
+        },
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.2
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 0.2,
+          "optional": true
+        },
+        {
+          "path": "burn_damage",
+          "op": "multiply",
+          "factor": 0.2,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "Anti-Nuke Launcher: 1/6 price",
+      "rel_path": "pa/units/land/anti_nuke_launcher/anti_nuke_launcher.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.1666666667
+        }
+      ]
+    },
+    {
+      "name": "Anti-Nuke Missile: 1/8 price",
+      "rel_path": "pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.125
+        }
+      ]
+    },
+    {
+      "name": "Helios: 10000 metal",
+      "rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "set",
+          "value": 10000
+        }
+      ]
+    },
+    {
+      "name": "Helios beam: 25% damage",
+      "rel_path": "pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.25
+        }
+      ]
+    },
+    {
+      "name": "support_platform: 200% price",
+      "rel_path": "pa/units/air/support_platform/support_platform.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "titan_bot: 70% health",
+      "rel_path": "pa/units/land/titan_bot/titan_bot.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 0.7
+        }
+      ]
+    },
+    {
+      "name": "titan_air: 130% damage",
+      "rel_path": "pa/units/air/titan_air/titan_air_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 1.3
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 1.3,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "Galata Turret: 115% damage",
+      "rel_path": "pa/units/land/air_defense/air_defense_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 1.15
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 1.15,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "tactical_missile_launcher: 110% price",
+      "rel_path": "pa/units/land/tactical_missile_launcher/tactical_missile_launcher.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 1.1
+        }
+      ]
+    },
+    {
+      "name": "land_scout: 50% price, 200% speed",
+      "rel_path": "pa/units/land/land_scout/land_scout.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.5
+        },
+        {
+          "path": "navigation.move_speed",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "teleporter: 150% health, 80% price",
+      "rel_path": "pa/units/land/teleporter/teleporter.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.8
+        }
+      ]
+    },
+    {
+      "name": "orbital_fabrication_bot: 300% health",
+      "rel_path": "pa/units/orbital/orbital_fabrication_bot/orbital_fabrication_bot.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 3.0
+        }
+      ]
+    },
+    {
+      "name": "orbital_battleship: 18000 metal",
+      "rel_path": "pa/units/orbital/orbital_battleship/orbital_battleship.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "set",
+          "value": 18000
+        }
+      ]
+    },
+    {
+      "name": "tank_anti_nuke: 30% price",
+      "rel_path": "pa/units/land/tank_anti_nuke/tank_anti_nuke.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.3
+        }
+      ]
+    }
+  ]
+}

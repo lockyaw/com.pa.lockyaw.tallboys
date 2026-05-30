@@ -1,15 +1,15 @@
 {
-    "context": "server",
-    "identifier": "com.pa.lockyaw.tallboys",
-    "display_name": "Tallboys Ridiculous Rebalance Mod",
-    "description": "Drastically rebalances nukes, anti-nukes, and orbital vs ground engagements.",
-    "author": "You",
-    "version": "0.0.2",
-    "build": "124635",
-    "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
-    "category": [
-        "server",
-        "balance",
-        "units"
-    ]
+  "context": "server",
+  "identifier": "com.pa.lockyaw.tallboys",
+  "display_name": "Tallboys Ridiculous Rebalance Mod",
+  "description": "Rebalances nukes, anti-nukes, orbital titans, and selected unit costs, health, speed, and damage values.",
+  "author": "You",
+  "version": "0.0.5",
+  "build": "124635",
+  "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
+  "category": [
+    "server",
+    "balance",
+    "units"
+  ]
 }
