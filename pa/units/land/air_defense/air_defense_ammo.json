@@ -1,0 +1,5 @@
+{
+  "base_spec": "/pa/units/land/air_defense/air_defense_ammo.json",
+  "damage": 28.75,
+  "splash_damage": 11.5
+}

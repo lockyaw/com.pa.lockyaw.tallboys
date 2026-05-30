@@ -1,0 +1,11 @@
+{
+  "base_spec": "/pa/units/land/land_scout/land_scout.json",
+  "build_metal_cost": 37.5,
+  "navigation": {
+    "type": "land-small",
+    "acceleration": 250,
+    "brake": 250,
+    "move_speed": 50,
+    "turn_speed": 360
+  }
+}
