@@ -4,7 +4,7 @@
     "si_name": "anti_nuke_launcher_ammo",
     "has_notifications": true,
     "ammo_type": "Projectile",
-    "build_metal_cost": 843,
+    "build_metal_cost": 625,
     "flight_type": "Staged",
     "damage": 1,
     "splash_damage": 1,
