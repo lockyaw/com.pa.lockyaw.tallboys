@@ -3,6 +3,12 @@ source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_
 output: pa/units/land/nuke_launcher/nuke_launcher.json
   build_metal_cost: 14400 -> 3600
 
+[Nuclear Missile Launcher build arm: 150% construction demand]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\nuke_launcher\nuke_launcher_build_arm.json
+output: pa/units/land/nuke_launcher/nuke_launcher_build_arm.json
+  construction_demand.energy: 6000 -> 9000
+  construction_demand.metal: 90 -> 135
+
 [Nuclear Missile: 25% price, 20% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\nuke_launcher\nuke_launcher_ammo.json
 output: pa/units/land/nuke_launcher/nuke_launcher_ammo.json

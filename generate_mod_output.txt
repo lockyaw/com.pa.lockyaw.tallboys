@@ -2,5 +2,4 @@ Running Tallboys mod generator...
  
 Output was also saved to: C:\Users\TreeM\AppData\Local\Uber Entertainment\Planetary Annihilation\server_mods\com.pa.lockyaw.tallboys\generate_mod_output.txt 
 Generation complete. 
-Generated into: C:\Users\TreeM\AppData\Local\Uber Entertainment\Planetary Annihilation\server_mods\com.pa.lockyaw.tallboys 
-Zip: C:\Users\TreeM\AppData\Local\Uber Entertainment\Planetary Annihilation\server_mods\com.pa.lockyaw.tallboys\com.pa.lockyaw.tallboys.zip 
+Generated directly into this server mod folder. 

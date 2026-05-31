@@ -2,7 +2,7 @@
 setlocal
 
 REM Put this .bat file next to generate_mod.py and balance_plan.json.
-REM This generates directly into this server mod folder.
+REM Change this path if your PA:TITANS install is somewhere else.
 set "PA_ROOT=D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans"
 set "LOG_FILE=generate_mod_output.txt"
 
@@ -16,7 +16,7 @@ py -3 generate_mod.py ^
   --plan balance_plan.json ^
   --pa-root "%PA_ROOT%" ^
   --output-dir "%CD%" ^
-  --zip "%CD%\com.pa.lockyaw.tallboys.zip" ^
+  --zip "" ^
   --no-clean ^
   --clean-generated >> "%LOG_FILE%" 2>&1
 
@@ -35,11 +35,9 @@ if not "%EXIT_CODE%"=="0" (
 ) else (
   echo.
   echo Generation complete.
-  echo Generated into: %CD%
-  echo Zip: %CD%\com.pa.lockyaw.tallboys.zip
+  echo Generated directly into this server mod folder.
   echo Generation complete. >> "%LOG_FILE%"
-  echo Generated into: %CD% >> "%LOG_FILE%"
-  echo Zip: %CD%\com.pa.lockyaw.tallboys.zip >> "%LOG_FILE%"
+  echo Generated directly into this server mod folder. >> "%LOG_FILE%"
 )
 
 echo.

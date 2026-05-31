@@ -5,7 +5,7 @@
     "display_name": "Tallboys Ridiculous Rebalance Mod",
     "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, and selected unit costs, health, speed, and damage values.",
     "author": "You",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -23,6 +23,22 @@
           "path": "build_metal_cost",
           "op": "multiply",
           "factor": 0.25
+        }
+      ]
+    },
+    {
+      "name": "Nuclear Missile Launcher build arm: 150% construction demand",
+      "rel_path": "pa/units/land/nuke_launcher/nuke_launcher_build_arm.json",
+      "changes": [
+        {
+          "path": "construction_demand.energy",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "construction_demand.metal",
+          "op": "multiply",
+          "factor": 1.5
         }
       ]
     },

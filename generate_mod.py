@@ -314,6 +314,33 @@ def set_nested(data: Any, dotted_path: str, value: Any) -> None:
         current[final_part] = value
 
 
+def set_or_add_nested(data: Any, dotted_path: str, value: Any) -> None:
+    parts = parse_path(dotted_path)
+    current = data
+
+    for part in parts[:-1]:
+        if isinstance(part, int):
+            if not isinstance(current, list) or part < 0 or part >= len(current):
+                raise KeyError(dotted_path)
+            current = current[part]
+        else:
+            if not isinstance(current, dict):
+                raise KeyError(dotted_path)
+            if part not in current or current[part] is None:
+                current[part] = {}
+            current = current[part]
+
+    final_part = parts[-1]
+    if isinstance(final_part, int):
+        if not isinstance(current, list) or final_part < 0 or final_part >= len(current):
+            raise KeyError(dotted_path)
+        current[final_part] = value
+    else:
+        if not isinstance(current, dict):
+            raise KeyError(dotted_path)
+        current[final_part] = value
+
+
 def normalize_number(value: Any) -> Any:
     if isinstance(value, bool):
         return value
@@ -329,13 +356,22 @@ def normalize_number(value: Any) -> Any:
 
 def apply_change(data: JsonObject, change: JsonObject) -> str:
     dotted_path = change["path"]
+    operation = change["op"]
     optional = bool(change.get("optional", False))
+
+    if operation == "set_or_add":
+        old_value = get_nested(data, dotted_path, optional=True)
+        new_value = change["value"]
+        set_or_add_nested(data, dotted_path, new_value)
+        if old_value is None:
+            return f"{dotted_path}: added {new_value!r}"
+        return f"{dotted_path}: {old_value!r} -> {new_value!r}"
+
     old_value = get_nested(data, dotted_path, optional)
 
     if old_value is None and optional:
         return f"SKIPPED optional missing path: {dotted_path}"
 
-    operation = change["op"]
     if operation == "multiply":
         if not isinstance(old_value, (int, float)) or isinstance(old_value, bool):
             raise TypeError(f"Cannot multiply non-numeric value at {dotted_path}: {old_value!r}")
@@ -558,7 +594,8 @@ def main(argv: List[str]) -> int:
     )
 
     args = parser.parse_args(argv)
-    zip_path = None if str(args.zip) == "" else args.zip
+    raw_zip_path = str(args.zip).strip().strip('"')
+    zip_path = None if raw_zip_path in {"", "."} else args.zip
     generate(
         plan_path=args.plan,
         pa_root=args.pa_root,
