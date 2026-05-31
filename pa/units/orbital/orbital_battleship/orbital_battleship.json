@@ -1,20 +1,18 @@
 {
-  "base_spec": "/pa/units/orbital/base_orbital/base_orbital.json",
   "display_name": "Omega",
   "description": "!LOC:Orbital Battleship - Rapid-Fire. Very durable. Heavy damage. Attacks everything.",
-  "build_metal_cost": 18000,
+  "strategic_icon_priority": 1,
   "max_health": 4000,
+  "build_metal_cost": 18000,
+  "show_in_orbital_layer": true,
+  "enable_orbital_shell": true,
+  "influence_radius": 1000,
+  "system_velocity_multiplier": 30.0,
+  "gravwell_velocity_multiplier": 10.0,
+  "planetary_arrival_cooldown_time": 3.0,
   "wreckage_health_frac": 0.0,
-  "spawn_layers": "WL_Orbital",
-  "attachable": {
-    "offsets": {
-      "root": [
-        0,
-        0,
-        0
-      ]
-    }
-  },
+  "armor_type": "AT_Orbital",
+  "guard_radius": 100,
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Mobile",
@@ -32,22 +30,186 @@
     "ORDER_Attack",
     "ORDER_Assist"
   ],
-  "guard_layer": "WL_Orbital",
+  "orbital_offset": [
+    {
+      "view_type": "Ally",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_ally.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Unselected Preview",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_unselected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Selected",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_selected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Enemy",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_enemy.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    }
+  ],
   "navigation": {
     "type": "orbital",
     "acceleration": 30,
     "brake": 80,
     "move_speed": 15,
     "turn_speed": 45,
-    "circle_min_time": 2,
-    "circle_max_time": 4,
+    "dodge_radius": 10,
+    "dodge_multiplier": 1.0,
+    "wobble_factor": 0.2,
+    "wobble_speed": 0.0,
     "hover_time": -1.0,
-    "bank_factor": 1
+    "bank_factor": 1,
+    "circle_min_time": 2,
+    "circle_max_time": 4
   },
   "physics": {
     "radius": 5,
-    "gravity_scalar": 0.001
+    "gravity_scalar": 0.001,
+    "air_friction": 1.0,
+    "collision_layers": "WL_Orbital"
   },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/orbital/orbital"
+    },
+    "sing_selection_response": {
+      "cue": "/SE/UI/plus/sing"
+    },
+    "loops": {
+      "move": {
+        "cue": "/SE/Movement/orbital/orbital_battleship_loop",
+        "flag": "vel_changed",
+        "should_start_func": "is_moving",
+        "should_stop_func": "is_not_moving"
+      }
+    }
+  },
+  "events": {
+    "died": {
+      "audio_cue": "/SE/Death/orbital",
+      "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx",
+      "effect_scale": 2.5
+    },
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/sea"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
+      "effect_spec": ""
+    },
+    "fired0": {
+      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
+      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle01 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle02",
+      "effect_scale": 5.0
+    },
+    "fired1": {
+      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
+      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle03 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle04",
+      "effect_scale": 5.0
+    },
+    "fired2": {
+      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
+      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle05 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle06",
+      "effect_scale": 5.0
+    },
+    "fired3": {
+      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
+      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle07 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle08",
+      "effect_scale": 5.0
+    }
+  },
+  "selection_icon": {
+    "vertical_offset": -3.0,
+    "diameter": 56.0
+  },
+  "spawn_layers": "WL_Orbital",
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "guard_layer": "WL_Orbital",
   "recon": {
     "observer": {
       "items": [
@@ -129,40 +291,6 @@
       "muzzle_bone": "socket_muzzle09"
     }
   ],
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/sea"
-    },
-    "died": {
-      "audio_cue": "/SE/Death/orbital",
-      "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx",
-      "effect_scale": 2.5
-    },
-    "fired": {
-      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
-      "effect_spec": ""
-    },
-    "fired0": {
-      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
-      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle01 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle02",
-      "effect_scale": 5.0
-    },
-    "fired1": {
-      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
-      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle03 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle04",
-      "effect_scale": 5.0
-    },
-    "fired2": {
-      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
-      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle05 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle06",
-      "effect_scale": 5.0
-    },
-    "fired3": {
-      "audio_cue": "/SE/Weapons/orb/orbital_battleship_fire",
-      "effect_spec": "/pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle07 /pa/effects/specs/tank_muzzle_flash.pfx socket_muzzle08",
-      "effect_scale": 5.0
-    }
-  },
   "fx_offsets": [
     {
       "type": "moving",
@@ -255,23 +383,6 @@
       ]
     }
   ],
-  "audio": {
-    "loops": {
-      "move": {
-        "cue": "/SE/Movement/orbital/orbital_battleship_loop",
-        "flag": "vel_changed",
-        "should_start_func": "is_moving",
-        "should_stop_func": "is_not_moving"
-      }
-    },
-    "selection_response": {
-      "cue": "/SE/Selection/orbital/orbital"
-    }
-  },
-  "selection_icon": {
-    "diameter": 56.0,
-    "vertical_offset": -3.0
-  },
   "mesh_bounds": [
     25,
     57,

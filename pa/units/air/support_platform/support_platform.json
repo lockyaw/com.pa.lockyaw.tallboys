@@ -1,18 +1,12 @@
 {
-  "base_spec": "/pa/units/air/base_flyer/base_flyer.json",
   "display_name": "Angel",
   "description": "!LOC:Support Platform - Repairs nearby units and auto reclaims wreckage. Intercepts homing missiles. Does not attack.",
+  "strategic_icon_priority": 3,
   "max_health": 1200,
   "build_metal_cost": 8000,
-  "attachable": {
-    "offsets": {
-      "root": [
-        0,
-        0,
-        0
-      ]
-    }
-  },
+  "spawn_layers": "WL_LandHorizontal",
+  "armor_type": "AT_Air",
+  "guard_radius": 60,
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Air",
@@ -30,18 +24,35 @@
     "ORDER_Assist",
     "ORDER_Reclaim"
   ],
+  "wreckage_health_frac": 1,
+  "wreckage": {
+    "remove_ground_cost_stamp": true,
+    "collision": [
+      "none"
+    ]
+  },
   "navigation": {
     "type": "air",
     "acceleration": 40,
     "brake": 30,
     "move_speed": 40,
     "turn_speed": 180,
-    "vertical_speed": 100,
-    "hover_time": -1.0
+    "dodge_radius": 15,
+    "dodge_multiplier": 3.0,
+    "aggressive_distance": 50.0,
+    "aggressive_Height": 1.0,
+    "aggressive_behavior": "line",
+    "wobble_factor": 1.0,
+    "wobble_speed": 1.0,
+    "hover_time": -1.0,
+    "vertical_speed": 100
   },
   "physics": {
     "radius": 5,
-    "gravity_scalar": 0.001
+    "gravity_scalar": 0.001,
+    "push_sideways": true,
+    "allow_pushing": true,
+    "air_friction": 1.0
   },
   "recon": {
     "observer": {
@@ -52,6 +63,51 @@
           "shape": "capsule",
           "radius": 200
         }
+      ]
+    }
+  },
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/fab"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/base/base_fire_laser"
+    },
+    "died": {
+      "audio_cue": "/SE/Death/Air",
+      "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx",
+      "effect_scale": 0.75
+    },
+    "fired0": {
+      "audio_cue": "/SE/Weapons/bot/sniper_fire_anti_tac",
+      "effect_spec": "/pa/units/land/bot_sniper/bot_sniper_beam_flash.pfx socket_muzzle02"
+    }
+  },
+  "audio": {
+    "loops": {
+      "move": {
+        "cue": "/SE/Movement/air/fab_air_loop_T2",
+        "flag": "vel_changed",
+        "should_start_func": "is_moving_laterally",
+        "should_stop_func": "is_not_moving"
+      },
+      "build": {
+        "cue": "/SE/Construction/Fab_contruction_beam_loop",
+        "flag": "build_target_changed",
+        "should_start_func": "has_build_target",
+        "should_stop_func": "no_build_target"
+      }
+    },
+    "selection_response": {
+      "cue": "/SE/Selection/air/fabber_T2"
+    }
+  },
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
       ]
     }
   },
@@ -78,39 +134,6 @@
       "aim_bone": "bone_pitch"
     }
   ],
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/fab"
-    },
-    "fired0": {
-      "audio_cue": "/SE/Weapons/bot/sniper_fire_anti_tac",
-      "effect_spec": "/pa/units/land/bot_sniper/bot_sniper_beam_flash.pfx socket_muzzle02"
-    },
-    "died": {
-      "audio_cue": "/SE/Death/Air",
-      "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx",
-      "effect_scale": 0.75
-    }
-  },
-  "audio": {
-    "loops": {
-      "build": {
-        "cue": "/SE/Construction/Fab_contruction_beam_loop",
-        "flag": "build_target_changed",
-        "should_start_func": "has_build_target",
-        "should_stop_func": "no_build_target"
-      },
-      "move": {
-        "cue": "/SE/Movement/air/fab_air_loop_T2",
-        "flag": "vel_changed",
-        "should_start_func": "is_moving_laterally",
-        "should_stop_func": "is_not_moving"
-      }
-    },
-    "selection_response": {
-      "cue": "/SE/Selection/air/fabber_T2"
-    }
-  },
   "fx_offsets": [
     {
       "type": "idle",

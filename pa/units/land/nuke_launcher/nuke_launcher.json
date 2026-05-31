@@ -1,27 +1,15 @@
 {
-  "base_spec": "/pa/units/land/base_structure/base_structure.json",
-  "unit_name": "Nuclear Missile Launcher",
   "display_name": "!LOC:Nuclear Missile Launcher",
   "description": "!LOC:Nuclear Missile Launcher - Builds interplanetary long range nuclear missile with large area damage.",
+  "strategic_icon_priority": 4,
   "max_health": 1500,
+  "wreckage_health_frac": 1.0,
   "build_metal_cost": 3600,
-  "atrophy_rate": 240.0,
-  "atrophy_cool_down": 15.0,
   "spawn_layers": "WL_AnyHorizontalGroundOrWaterSurface",
-  "alt_area_build_type": "Sphere",
-  "alt_area_max_radius": 100.0,
-  "buildable_projectiles": [
-    "/pa/units/land/nuke_launcher/nuke_launcher_ammo.json"
-  ],
-  "factory": {
-    "store_units": true,
-    "spawn_points": [
-      "bone_missile01"
-    ],
-    "initial_build_spec": "/pa/units/land/nuke_launcher/nuke_launcher_ammo.json",
-    "default_build_stance": "Continuous"
-  },
+  "armor_type": "AT_Structure",
+  "guard_radius": 50,
   "unit_types": [
+    "UNITTYPE_Custom58",
     "UNITTYPE_Land",
     "UNITTYPE_Structure",
     "UNITTYPE_Offense",
@@ -32,11 +20,60 @@
     "UNITTYPE_Important",
     "UNITTYPE_Interplanetary"
   ],
-  "command_caps": [
-    "ORDER_FactoryBuild",
-    "ORDER_Attack"
-  ],
+  "physics": {
+    "type": "Structure",
+    "shape": "Box",
+    "collision_layers": "WL_AnyHorizontalGroundOrWaterSurface",
+    "radius": 1,
+    "air_friction": 1.0,
+    "allow_pushing": false,
+    "push_sideways": false,
+    "allow_underground": false
+  },
+  "structure": {
+    "cost_stamp": {
+      "shape": "box",
+      "type_data": [
+        {
+          "move_type": "land-small",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "water-hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "deepwater",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "underwater",
+          "stamp_type": "structure"
+        }
+      ]
+    }
+  },
   "recon": {
+    "observable": {
+      "layer": "surface_and_air",
+      "show_ghost": true
+    },
     "observer": {
       "items": [
         {
@@ -54,6 +91,61 @@
       ]
     }
   },
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/factory"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/structure/nuke_launcher_fire",
+      "effect_spec": "/pa/units/land/nuke_launcher/nuke_launcher_launch.pfx"
+    },
+    "died": {
+      "audio_cue": "/SE/Death/Factory",
+      "effect_spec": "/pa/effects/specs/default_building_explosion.pfx"
+    },
+    "destroyed": {
+      "audio_cue": "/SE/Impacts/debris_destroyed"
+    }
+  },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/structure/nuke"
+    },
+    "loops": {
+      "build": {
+        "cue": "/SE/Construction/Factory_contruction_loop_nuke",
+        "flag": "build_target_changed",
+        "should_start_func": "has_build_target",
+        "should_stop_func": "no_build_target"
+      }
+    }
+  },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_b_01.json"
+    ]
+  },
+  "TEMP_texelinfo": 19.5004,
+  "unit_name": "Nuclear Missile Launcher",
+  "atrophy_rate": 240.0,
+  "atrophy_cool_down": 15.0,
+  "alt_area_build_type": "Sphere",
+  "alt_area_max_radius": 100.0,
+  "buildable_projectiles": [
+    "/pa/units/land/nuke_launcher/nuke_launcher_ammo.json"
+  ],
+  "factory": {
+    "store_units": true,
+    "spawn_points": [
+      "bone_missile01"
+    ],
+    "initial_build_spec": "/pa/units/land/nuke_launcher/nuke_launcher_ammo.json",
+    "default_build_stance": "Continuous"
+  },
+  "command_caps": [
+    "ORDER_FactoryBuild",
+    "ORDER_Attack"
+  ],
   "model": [
     {
       "layer": "WL_LandHorizontal",
@@ -93,31 +185,6 @@
       "aim_bone": "bone_root"
     }
   ],
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/factory"
-    },
-    "fired": {
-      "audio_cue": "/SE/Weapons/structure/nuke_launcher_fire",
-      "effect_spec": "/pa/units/land/nuke_launcher/nuke_launcher_launch.pfx"
-    },
-    "died": {
-      "audio_cue": "/SE/Death/Factory"
-    }
-  },
-  "audio": {
-    "loops": {
-      "build": {
-        "cue": "/SE/Construction/Factory_contruction_loop_nuke",
-        "flag": "build_target_changed",
-        "should_start_func": "has_build_target",
-        "should_stop_func": "no_build_target"
-      }
-    },
-    "selection_response": {
-      "cue": "/SE/Selection/structure/nuke"
-    }
-  },
   "fx_offsets": [
     {
       "type": "build",
@@ -229,11 +296,15 @@
   "mesh_bounds": [
     14,
     14,
-    18
+    22.5
+  ],
+  "wreckage_mesh_bounds": [
+    14,
+    14,
+    22.5
   ],
   "placement_size": [
-    25,
-    25
-  ],
-  "TEMP_texelinfo": 19.5004
+    20,
+    20
+  ]
 }

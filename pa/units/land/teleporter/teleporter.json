@@ -1,16 +1,13 @@
 {
-  "base_spec": "/pa/units/land/base_structure/base_structure.json",
-  "unit_name": "Teleporter",
   "display_name": "!LOC:Teleporter",
   "description": "!LOC:Interplanetary Teleporter: Teleports units between linked Teleporters.",
+  "strategic_icon_priority": 4,
   "max_health": 10500,
+  "wreckage_health_frac": 1.0,
   "build_metal_cost": 800,
-  "atrophy_rate": 6.66667,
-  "atrophy_cool_down": 15.0,
   "spawn_layers": "WL_LandHorizontal",
-  "area_build_type": "Line",
-  "energy_efficiency_requirement": 1.0,
-  "flip_drag_orientation": true,
+  "armor_type": "AT_Structure",
+  "guard_radius": 50,
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Structure",
@@ -22,16 +19,60 @@
     "UNITTYPE_CombatFabBuild",
     "UNITTYPE_FabOrbBuild"
   ],
-  "command_caps": [
-    "ORDER_Move",
-    "ORDER_Patrol",
-    "ORDER_Reclaim",
-    "ORDER_Repair",
-    "ORDER_Attack",
-    "ORDER_Assist",
-    "ORDER_Use"
-  ],
+  "physics": {
+    "type": "Structure",
+    "shape": "Box",
+    "collision_layers": "WL_AnyHorizontalGroundOrWaterSurface",
+    "radius": 1,
+    "air_friction": 1.0,
+    "allow_pushing": false,
+    "push_sideways": false,
+    "allow_underground": false
+  },
+  "structure": {
+    "cost_stamp": {
+      "shape": "box",
+      "type_data": [
+        {
+          "move_type": "land-small",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "water-hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "deepwater",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "underwater",
+          "stamp_type": "structure"
+        }
+      ]
+    }
+  },
   "recon": {
+    "observable": {
+      "layer": "surface_and_air",
+      "show_ghost": true
+    },
     "observer": {
       "items": [
         {
@@ -49,6 +90,64 @@
       ]
     }
   },
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/energy"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/base/base_fire_laser"
+    },
+    "died": {
+      "audio_cue": "/SE/Death/Factory",
+      "effect_spec": "/pa/effects/specs/default_building_explosion.pfx",
+      "effect_scale": 1.5
+    },
+    "destroyed": {
+      "audio_cue": "/SE/Impacts/debris_destroyed"
+    },
+    "enabled": {
+      "audio_cue": "/SE/Buildings/teleporter_enabled",
+      "effect_spec": "/pa/units/land/teleporter/teleporter_power_on.pfx bone_innerRingMaster"
+    },
+    "disabled": {
+      "audio_cue": "/SE/Buildings/teleporter_disabled",
+      "effect_spec": "/pa/units/land/teleporter/teleporter_power_down.pfx bone_innerRingMaster"
+    }
+  },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/structure/structure_small"
+    },
+    "loops": {
+      "enabled": {
+        "cue": "/SE/Buildings/teleporter_loop",
+        "flag": "enable_changed",
+        "should_start_func": "is_enabled",
+        "should_stop_func": "is_disabled"
+      }
+    }
+  },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_b_01.json"
+    ]
+  },
+  "TEMP_texelinfo": 55.7884,
+  "unit_name": "Teleporter",
+  "atrophy_rate": 6.66667,
+  "atrophy_cool_down": 15.0,
+  "area_build_type": "Line",
+  "energy_efficiency_requirement": 1.0,
+  "flip_drag_orientation": true,
+  "command_caps": [
+    "ORDER_Move",
+    "ORDER_Patrol",
+    "ORDER_Reclaim",
+    "ORDER_Repair",
+    "ORDER_Attack",
+    "ORDER_Assist",
+    "ORDER_Use"
+  ],
   "model": {
     "filename": "/pa/units/land/teleporter/teleporter.papa",
     "animations": {
@@ -58,33 +157,6 @@
     },
     "animtree": "/pa/anim/anim_trees/powered_loop_anim_tree.json",
     "skirt_decal": "/pa/effects/specs/skirt_teleporter.json"
-  },
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/energy"
-    },
-    "enabled": {
-      "audio_cue": "/SE/Buildings/teleporter_enabled",
-      "effect_spec": "/pa/units/land/teleporter/teleporter_power_on.pfx bone_innerRingMaster"
-    },
-    "disabled": {
-      "audio_cue": "/SE/Buildings/teleporter_disabled",
-      "effect_spec": "/pa/units/land/teleporter/teleporter_power_down.pfx bone_innerRingMaster"
-    },
-    "died": {
-      "audio_cue": "/SE/Death/Factory",
-      "effect_scale": 1.5
-    }
-  },
-  "audio": {
-    "loops": {
-      "enabled": {
-        "cue": "/SE/Buildings/teleporter_loop",
-        "flag": "enable_changed",
-        "should_start_func": "is_enabled",
-        "should_stop_func": "is_disabled"
-      }
-    }
   },
   "fx_offsets": [
     {
@@ -184,6 +256,5 @@
   "placement_size": [
     50,
     75
-  ],
-  "TEMP_texelinfo": 55.7884
+  ]
 }

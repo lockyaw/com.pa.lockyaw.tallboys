@@ -38,15 +38,23 @@ def normalize_rel_path(rel_path: str) -> Tuple[str, Path]:
     return "/".join(parts), Path(*parts)
 
 
+def split_units_suffix(normalized_path: str) -> str | None:
+    parts = normalized_path.split("/")
+    if len(parts) >= 3 and parts[1] == "units" and parts[0] in {"pa", "pa_ex1"}:
+        return "/".join(parts[2:])
+    return None
+
+
 def possible_roots(pa_root: Path) -> List[Path]:
     root = pa_root.expanduser().resolve()
     roots: List[Path] = [root]
 
-    if root.name.lower() not in {"media", "pa", "pa_ex1"}:
+    root_name = root.name.lower()
+    if root_name not in {"media", "pa", "pa_ex1"}:
         roots.append(root / "media")
         roots.append(root / "PA" / "media")
 
-    if root.name.lower() in {"bin_x64", "bin_x86"}:
+    if root_name in {"bin_x64", "bin_x86"}:
         roots.append(root.parent / "media")
         roots.append(root.parent.parent / "media")
 
@@ -60,35 +68,66 @@ def possible_roots(pa_root: Path) -> List[Path]:
     return unique_roots
 
 
-def titan_aliases_for_rel_path(normalized_rel_path: str) -> List[Path]:
-    parts = normalized_rel_path.split("/")
-    aliases: List[Path] = []
+def direct_candidates(root: Path, normalized_source_path: str, prefer_pa_ex1_for_units: bool) -> List[Path]:
+    parts = normalized_source_path.split("/")
+    candidates: List[Path] = []
 
-    if len(parts) >= 3 and parts[0] == "pa" and parts[1] == "units":
-        # TITANS expansion files may be stored physically under media/pa_ex1/units,
-        # while their mounted in-game path is still /pa/units/...
-        aliases.append(Path("pa_ex1", *parts[1:]))
+    is_pa_unit = len(parts) >= 3 and parts[0] == "pa" and parts[1] == "units"
+    is_pa_ex1_unit = len(parts) >= 3 and parts[0] == "pa_ex1" and parts[1] == "units"
 
-    return aliases
+    if is_pa_unit and prefer_pa_ex1_for_units:
+        # TITANS commonly stores expansion overrides under media/pa_ex1/units while the
+        # in-game spec path remains /pa/units. Prefer that physical source when present.
+        candidates.append(root / Path("pa_ex1", *parts[1:]))
+        candidates.append(root / Path(*parts))
+    elif is_pa_ex1_unit:
+        candidates.append(root / Path(*parts))
+        candidates.append(root / Path("pa", *parts[1:]))
+    elif is_pa_unit:
+        candidates.append(root / Path(*parts))
+        candidates.append(root / Path("pa_ex1", *parts[1:]))
+    else:
+        candidates.append(root / Path(*parts))
+
+    return candidates
 
 
-def recursive_suffixes_for_rel_path(normalized_rel_path: str) -> List[str]:
-    parts = normalized_rel_path.split("/")
-    suffixes = [normalized_rel_path.lower()]
+def suffixes_for_source_path(normalized_source_path: str, prefer_pa_ex1_for_units: bool) -> List[str]:
+    parts = normalized_source_path.split("/")
+    suffixes: List[str] = []
 
-    if len(parts) >= 3 and parts[0] == "pa" and parts[1] == "units":
-        suffixes.append("/".join(parts[1:]).lower())
-        suffixes.append(("pa_ex1/" + "/".join(parts[1:])).lower())
+    def add(value: str) -> None:
+        lowered = value.lower()
+        if lowered not in suffixes:
+            suffixes.append(lowered)
+
+    is_pa_unit = len(parts) >= 3 and parts[0] == "pa" and parts[1] == "units"
+    is_pa_ex1_unit = len(parts) >= 3 and parts[0] == "pa_ex1" and parts[1] == "units"
+
+    if is_pa_unit and prefer_pa_ex1_for_units:
+        add("pa_ex1/" + "/".join(parts[1:]))
+        add(normalized_source_path)
+        add("/".join(parts[1:]))
+    elif is_pa_unit:
+        add(normalized_source_path)
+        add("pa_ex1/" + "/".join(parts[1:]))
+        add("/".join(parts[1:]))
+    elif is_pa_ex1_unit:
+        add(normalized_source_path)
+        add("pa/" + "/".join(parts[1:]))
+        add("/".join(parts[1:]))
+    else:
+        add(normalized_source_path)
 
     return suffixes
 
 
-def find_by_suffix(search_root: Path, normalized_rel_path: str) -> Path | None:
+def find_by_suffix(search_root: Path, normalized_source_path: str, prefer_pa_ex1_for_units: bool) -> Path | None:
     if not search_root.exists():
         return None
 
-    filename = normalized_rel_path.rsplit("/", 1)[-1]
-    suffixes = recursive_suffixes_for_rel_path(normalized_rel_path)
+    filename = normalized_source_path.rsplit("/", 1)[-1]
+    suffixes = suffixes_for_source_path(normalized_source_path, prefer_pa_ex1_for_units)
 
     matches: List[Path] = []
     for candidate in search_root.rglob(filename):
@@ -101,20 +140,25 @@ def find_by_suffix(search_root: Path, normalized_rel_path: str) -> Path | None:
     if not matches:
         return None
 
-    # Prefer a normal /pa/ hit if it exists, otherwise a /pa_ex1/ hit.
-    matches.sort(key=lambda path: ("/pa_ex1/" in path.as_posix().lower(), len(path.as_posix())))
+    def priority(path: Path) -> Tuple[int, int]:
+        lowered = path.as_posix().lower()
+        in_pa_ex1 = "/pa_ex1/" in lowered or lowered.endswith("/pa_ex1")
+        wants_pa_ex1 = prefer_pa_ex1_for_units and normalized_source_path.startswith("pa/units/")
+        if normalized_source_path.startswith("pa_ex1/units/"):
+            wants_pa_ex1 = True
+        return (0 if in_pa_ex1 == wants_pa_ex1 else 1, len(lowered))
+
+    matches.sort(key=priority)
     return matches[0]
 
 
-def resolve_base_file(pa_root: Path, rel_path: str) -> Path:
-    normalized_rel_path, rel_parts = normalize_rel_path(rel_path)
+def resolve_base_file(pa_root: Path, source_rel_path: str, prefer_pa_ex1_for_units: bool) -> Path:
+    normalized_source_path, _ = normalize_rel_path(source_rel_path)
     roots = possible_roots(pa_root)
 
     candidates: List[Path] = []
     for root in roots:
-        candidates.append(root / rel_parts)
-        for alias in titan_aliases_for_rel_path(normalized_rel_path):
-            candidates.append(root / alias)
+        candidates.extend(direct_candidates(root, normalized_source_path, prefer_pa_ex1_for_units))
 
     unique_candidates: List[Path] = []
     seen_candidates: Set[str] = set()
@@ -129,19 +173,79 @@ def resolve_base_file(pa_root: Path, rel_path: str) -> Path:
             return candidate
 
     for root in roots:
-        found = find_by_suffix(root, normalized_rel_path)
+        found = find_by_suffix(root, normalized_source_path, prefer_pa_ex1_for_units)
         if found is not None:
             return found
 
     checked = "\n".join(f"  - {candidate}" for candidate in unique_candidates)
     raise FileNotFoundError(
-        f"Could not find base-game file for {normalized_rel_path}.\n"
+        f"Could not find base-game source file for {normalized_source_path}.\n"
         f"Check that --pa-root points to either the PA:TITANS install folder or its media folder.\n"
-        f"For TITANS units, this generator also checks physical pa_ex1 paths.\n"
         f"Useful diagnostic command on PowerShell:\n"
-        f"  Get-ChildItem -Path \"{pa_root}\" -Recurse -Filter \"{Path(normalized_rel_path).name}\" | Select-Object FullName\n"
+        f"  Get-ChildItem -Path \"{pa_root}\" -Recurse -Filter \"{Path(normalized_source_path).name}\" | Select-Object FullName\n"
         f"Checked direct paths:\n{checked}"
     )
+
+
+def deep_merge(parent: Any, child: Any) -> Any:
+    if isinstance(parent, dict) and isinstance(child, dict):
+        merged = copy.deepcopy(parent)
+        for key, child_value in child.items():
+            if key in merged:
+                merged[key] = deep_merge(merged[key], child_value)
+            else:
+                merged[key] = copy.deepcopy(child_value)
+        return merged
+    return copy.deepcopy(child)
+
+
+def should_resolve_base_from_pa_tree(current_file: Path, current_requested_path: str, base_spec: str) -> bool:
+    base_normalized, _ = normalize_rel_path(base_spec)
+    current_suffix = split_units_suffix(current_requested_path)
+    base_suffix = split_units_suffix(base_normalized)
+    if current_suffix is None or base_suffix is None or current_suffix != base_suffix:
+        return False
+
+    lowered = current_file.as_posix().lower()
+    return "/pa_ex1/units/" in lowered or lowered.endswith("/pa_ex1/units")
+
+
+def load_merged_spec(
+    pa_root: Path,
+    source_rel_path: str,
+    prefer_pa_ex1_for_units: bool,
+    summary_lines: List[str],
+    stack: Tuple[str, ...] = (),
+) -> Tuple[JsonObject, Path]:
+    normalized_source_path, _ = normalize_rel_path(source_rel_path)
+    stack_key = f"{normalized_source_path}|pa_ex1={prefer_pa_ex1_for_units}"
+    if stack_key in stack:
+        chain = " -> ".join(stack + (stack_key,))
+        raise ValueError(f"Detected base_spec recursion: {chain}")
+
+    source_file = resolve_base_file(pa_root, normalized_source_path, prefer_pa_ex1_for_units)
+    data = load_json(source_file)
+    base_spec = data.get("base_spec")
+
+    if isinstance(base_spec, str):
+        force_pa_tree = should_resolve_base_from_pa_tree(source_file, normalized_source_path, base_spec)
+        child_without_base = copy.deepcopy(data)
+        child_without_base.pop("base_spec", None)
+        parent, _ = load_merged_spec(
+            pa_root=pa_root,
+            source_rel_path=base_spec,
+            prefer_pa_ex1_for_units=False if force_pa_tree else prefer_pa_ex1_for_units,
+            summary_lines=summary_lines,
+            stack=stack + (stack_key,),
+        )
+        merged = deep_merge(parent, child_without_base)
+        if force_pa_tree:
+            summary_lines.append(
+                f"  flattened pa_ex1 override over base spec {normalize_rel_path(base_spec)[0]}"
+            )
+        return merged, source_file
+
+    return data, source_file
 
 
 def parse_path(dotted_path: str) -> List[Any]:
@@ -234,6 +338,19 @@ def apply_change(data: JsonObject, change: JsonObject) -> str:
     return f"{dotted_path}: {old_value!r} -> {new_value!r}"
 
 
+def remove_dangerous_self_base_spec(data: JsonObject, output_rel_path: str) -> str | None:
+    base_spec = data.get("base_spec")
+    if not isinstance(base_spec, str):
+        return None
+
+    base_normalized, _ = normalize_rel_path(base_spec)
+    output_normalized, _ = normalize_rel_path(output_rel_path)
+    if base_normalized == output_normalized:
+        data.pop("base_spec", None)
+        return f"removed self-referencing base_spec: {base_spec}"
+    return None
+
+
 def ensure_safe_clean(output_dir: Path, clean: bool) -> None:
     if not clean:
         return
@@ -254,6 +371,15 @@ def ensure_safe_clean(output_dir: Path, clean: bool) -> None:
         )
 
 
+def clean_generated_files(output_dir: Path) -> None:
+    for relative in ["pa", "generation-summary.txt"]:
+        target = output_dir / relative
+        if target.is_dir():
+            shutil.rmtree(target)
+        elif target.exists():
+            target.unlink()
+
+
 def make_zip(source_dir: Path, zip_path: Path, files_to_include: Iterable[Path]) -> None:
     zip_path.parent.mkdir(parents=True, exist_ok=True)
     if zip_path.exists():
@@ -268,82 +394,152 @@ def make_zip(source_dir: Path, zip_path: Path, files_to_include: Iterable[Path])
         seen.add(key)
         unique_files.append(relative_path)
 
-    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zip_file:
-        for relative_path in sorted(unique_files, key=lambda path: path.as_posix()):
-            file_path = source_dir / relative_path
-            if file_path.is_file():
-                if file_path.resolve() == zip_path.resolve():
-                    continue
-                zip_file.write(file_path, relative_path.as_posix())
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for relative_path in sorted(unique_files, key=lambda value: value.as_posix().lower()):
+            full_path = source_dir / relative_path
+            if full_path.is_file():
+                archive.write(full_path, relative_path.as_posix())
 
 
-def generate(plan_path: Path, pa_root: Path, output_dir: Path, zip_path: Path | None, clean: bool) -> None:
+def plan_actions(plan: JsonObject) -> List[JsonObject]:
+    raw_actions = plan.get("actions", plan.get("edits"))
+    if not isinstance(raw_actions, list):
+        raise ValueError("balance_plan.json requires an actions array.")
+    return raw_actions
+
+
+def validate_plan(plan: JsonObject) -> None:
+    if "modinfo" not in plan or not isinstance(plan["modinfo"], dict):
+        raise ValueError("balance_plan.json requires a modinfo object.")
+
+    for index, edit in enumerate(plan_actions(plan)):
+        if not isinstance(edit, dict):
+            raise ValueError(f"action {index} must be an object.")
+        if "rel_path" not in edit and ("source_rel_path" not in edit or "output_rel_path" not in edit):
+            raise ValueError(
+                f"action {index} requires rel_path, or both source_rel_path and output_rel_path."
+            )
+        if "changes" not in edit or not isinstance(edit["changes"], list):
+            raise ValueError(f"action {index} requires a changes array.")
+
+
+def generate(plan_path: Path, pa_root: Path, output_dir: Path, zip_path: Path | None, clean: bool, clean_generated: bool, prefer_pa_ex1_for_units: bool) -> None:
     plan = load_json(plan_path)
-    actions = plan.get("actions", [])
-    if not isinstance(actions, list):
-        raise TypeError("balance_plan.json must contain an actions array.")
+    validate_plan(plan)
 
     ensure_safe_clean(output_dir, clean)
-
     if clean and output_dir.exists():
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    files_to_include: List[Path] = []
+    if clean_generated:
+        clean_generated_files(output_dir)
 
-    write_json(output_dir / "modinfo.json", plan["modinfo"])
-    files_to_include.append(Path("modinfo.json"))
+    generated_files: List[Path] = []
 
-    summary_lines: List[str] = []
-    for action in actions:
-        rel_path = action["rel_path"]
-        normalized_rel_path, output_rel_path = normalize_rel_path(rel_path)
-        base_file = resolve_base_file(pa_root, normalized_rel_path)
-        edited_data = copy.deepcopy(load_json(base_file))
+    modinfo_path = output_dir / "modinfo.json"
+    write_json(modinfo_path, plan["modinfo"])
+    generated_files.append(Path("modinfo.json"))
 
-        summary_lines.append(f"[{action.get('name', normalized_rel_path)}]")
-        summary_lines.append(f"base: {base_file}")
-        summary_lines.append(f"output: {normalized_rel_path}")
+    summary: List[str] = []
+    for edit in plan_actions(plan):
+        source_rel_path = edit.get("source_rel_path", edit.get("rel_path"))
+        output_rel_path = edit.get("output_rel_path", edit.get("rel_path"))
+        if not isinstance(source_rel_path, str) or not isinstance(output_rel_path, str):
+            raise TypeError("rel_path/source_rel_path/output_rel_path must be strings.")
 
-        for change in action["changes"]:
-            change_summary = apply_change(edited_data, change)
-            summary_lines.append(f"  {change_summary}")
+        normalized_output_path, output_parts = normalize_rel_path(output_rel_path)
+        normalized_source_path, _ = normalize_rel_path(source_rel_path)
 
-        # Important: write the full current-game spec, not a self-referencing base_spec patch.
-        write_json(output_dir / output_rel_path, edited_data)
-        files_to_include.append(output_rel_path)
-        summary_lines.append("")
+        local_summary: List[str] = []
+        data, base_file = load_merged_spec(
+            pa_root=pa_root,
+            source_rel_path=normalized_source_path,
+            prefer_pa_ex1_for_units=prefer_pa_ex1_for_units,
+            summary_lines=local_summary,
+        )
+
+        summary.append(f"[{edit.get('name', normalized_output_path)}]")
+        summary.append(f"source: {base_file}")
+        summary.append(f"output: {normalized_output_path}")
+        for line in local_summary:
+            summary.append(line)
+
+        for change in edit["changes"]:
+            summary.append("  " + apply_change(data, change))
+
+        base_spec_note = remove_dangerous_self_base_spec(data, normalized_output_path)
+        if base_spec_note is not None:
+            summary.append("  " + base_spec_note)
+
+        output_file = output_dir / output_parts
+        write_json(output_file, data)
+        generated_files.append(output_parts)
+        summary.append("")
 
     summary_path = output_dir / "generation-summary.txt"
-    summary_path.write_text("\n".join(summary_lines).rstrip() + "\n", encoding="utf-8")
-    files_to_include.append(Path("generation-summary.txt"))
+    summary_path.write_text("\n".join(summary), encoding="utf-8")
+    generated_files.append(Path("generation-summary.txt"))
 
     if zip_path is not None:
-        make_zip(output_dir, zip_path, files_to_include)
-
-    print(f"Generated mod folder: {output_dir}")
-    if zip_path is not None:
-        print(f"Generated zip: {zip_path}")
-    print("Wrote full unit specs generated from the current base game files.")
-    print("TITANS physical pa_ex1 files are supported while keeping /pa/... output paths.")
+        make_zip(output_dir, zip_path, generated_files)
 
 
-def main(argv: Iterable[str]) -> int:
-    parser = argparse.ArgumentParser(description="Generate the Tallboys PA:TITANS balance mod from current base-game JSON files.")
+def main(argv: List[str]) -> int:
+    parser = argparse.ArgumentParser(
+        description="Generate the Tallboys PA:TITANS balance mod from the installed base-game JSON files."
+    )
+    parser.add_argument(
+        "--plan",
+        type=Path,
+        default=Path("balance_plan.json"),
+        help="Path to balance_plan.json. Defaults to ./balance_plan.json.",
+    )
     parser.add_argument(
         "--pa-root",
-        required=True,
         type=Path,
-        help="Path to the PA:TITANS install folder or media folder. Example: D:/SteamLibrary/steamapps/common/Planetary Annihilation Titans/media",
+        required=True,
+        help="Path to the PA:TITANS install folder or its media folder.",
     )
-    parser.add_argument("--plan", type=Path, default=Path("balance_plan.json"), help="Path to balance_plan.json.")
-    parser.add_argument("--output-dir", type=Path, default=Path("build/com.pa.lockyaw.tallboys"), help="Generated mod folder.")
-    parser.add_argument("--zip", type=str, default="build/com.pa.lockyaw.tallboys.zip", help="Generated zip path. Use --zip none to skip zipping.")
-    parser.add_argument("--no-clean", action="store_true", help="Do not remove the previous output directory before generating.")
-    args = parser.parse_args(list(argv))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("build/com.pa.lockyaw.tallboys"),
+        help="Output mod folder. Defaults to build/com.pa.lockyaw.tallboys.",
+    )
+    parser.add_argument(
+        "--zip",
+        type=Path,
+        default=Path("build/com.pa.lockyaw.tallboys.zip"),
+        help="Output release zip. Use --zip \"\" to skip zip creation.",
+    )
+    parser.add_argument(
+        "--no-clean",
+        action="store_true",
+        help="Do not delete the output folder before writing. Required when generating in-place.",
+    )
+    parser.add_argument(
+        "--clean-generated",
+        action="store_true",
+        help="Delete previously generated pa/ files and generation-summary.txt before writing. Safe for in-place generation.",
+    )
+    parser.add_argument(
+        "--classic-source",
+        action="store_true",
+        help="Prefer media/pa over media/pa_ex1 for /pa/units sources. Default is TITANS-style pa_ex1 preference.",
+    )
 
-    zip_path = None if args.zip.lower() == "none" else Path(args.zip)
-    generate(args.plan, args.pa_root, args.output_dir, zip_path, not args.no_clean)
+    args = parser.parse_args(argv)
+    zip_path = None if str(args.zip) == "" else args.zip
+    generate(
+        plan_path=args.plan,
+        pa_root=args.pa_root,
+        output_dir=args.output_dir,
+        zip_path=zip_path,
+        clean=not args.no_clean,
+        clean_generated=args.clean_generated,
+        prefer_pa_ex1_for_units=not args.classic_source,
+    )
     return 0
 
 

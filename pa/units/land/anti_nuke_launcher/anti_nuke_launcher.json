@@ -1,32 +1,15 @@
 {
-  "base_spec": "/pa/units/land/base_structure/base_structure.json",
-  "unit_name": "Anti-Nuke Launcher",
   "display_name": "!LOC:Anti-Nuke Launcher",
   "description": "!LOC:Anti-Nuke - Builds advanced anti-nuclear missiles.",
+  "strategic_icon_priority": 4,
   "max_health": 3500,
+  "wreckage_health_frac": 1.0,
   "build_metal_cost": 2000,
-  "atrophy_rate": 200,
-  "atrophy_cool_down": 15,
-  "area_build_type": "Sphere",
-  "area_build_separation": 100,
-  "alt_area_build_type": "Sphere",
-  "alt_area_build_separation": 80,
   "spawn_layers": "WL_AnyHorizontalGroundOrWaterSurface",
-  "buildable_projectiles": [
-    "/pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json"
-  ],
-  "factory_cooldown_time": 5,
-  "factory": {
-    "store_units": true,
-    "spawn_points": [
-      "socket_missile01",
-      "socket_missile02",
-      "socket_missile03"
-    ],
-    "initial_build_spec": "/pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json",
-    "default_build_stance": "Continuous"
-  },
+  "armor_type": "AT_Structure",
+  "guard_radius": 50,
   "unit_types": [
+    "UNITTYPE_Custom58",
     "UNITTYPE_Land",
     "UNITTYPE_Structure",
     "UNITTYPE_Defense",
@@ -34,12 +17,63 @@
     "UNITTYPE_Advanced",
     "UNITTYPE_Factory",
     "UNITTYPE_FabAdvBuild",
+    "UNITTYPE_CombatFabAdvBuild",
     "UNITTYPE_Important"
   ],
-  "command_caps": [
-    "ORDER_FactoryBuild"
-  ],
+  "physics": {
+    "type": "Structure",
+    "shape": "Box",
+    "collision_layers": "WL_AnyHorizontalGroundOrWaterSurface",
+    "radius": 1,
+    "air_friction": 1.0,
+    "allow_pushing": false,
+    "push_sideways": false,
+    "allow_underground": false
+  },
+  "structure": {
+    "cost_stamp": {
+      "shape": "box",
+      "type_data": [
+        {
+          "move_type": "land-small",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "amphibious-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "water-hover",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "hover-large",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "deepwater",
+          "stamp_type": "structure"
+        },
+        {
+          "move_type": "underwater",
+          "stamp_type": "structure"
+        }
+      ]
+    }
+  },
   "recon": {
+    "observable": {
+      "layer": "surface_and_air",
+      "show_ghost": true
+    },
     "observer": {
       "items": [
         {
@@ -63,6 +97,64 @@
       ]
     }
   },
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/factory"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/structure/anti_nuke_launcher_fire"
+    },
+    "died": {
+      "audio_cue": "/SE/Death/Factory",
+      "effect_spec": "/pa/effects/specs/default_building_explosion.pfx"
+    },
+    "destroyed": {
+      "audio_cue": "/SE/Impacts/debris_destroyed"
+    }
+  },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/structure/anti_nuke"
+    },
+    "loops": {
+      "build": {
+        "cue": "/SE/Construction/Factory_contruction_loop_antinuke",
+        "flag": "build_target_changed",
+        "should_start_func": "has_build_target",
+        "should_stop_func": "no_build_target"
+      }
+    }
+  },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_b_01.json"
+    ]
+  },
+  "TEMP_texelinfo": 21.7597,
+  "unit_name": "Anti-Nuke Launcher",
+  "atrophy_rate": 200,
+  "atrophy_cool_down": 15,
+  "area_build_type": "Sphere",
+  "area_build_separation": 100,
+  "alt_area_build_type": "Sphere",
+  "alt_area_build_separation": 80,
+  "buildable_projectiles": [
+    "/pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json"
+  ],
+  "factory_cooldown_time": 5,
+  "factory": {
+    "store_units": true,
+    "spawn_points": [
+      "socket_missile01",
+      "socket_missile02",
+      "socket_missile03"
+    ],
+    "initial_build_spec": "/pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json",
+    "default_build_stance": "Continuous"
+  },
+  "command_caps": [
+    "ORDER_FactoryBuild"
+  ],
   "model": [
     {
       "layer": "WL_LandHorizontal",
@@ -110,31 +202,6 @@
       "muzzle_bone": "bone_root"
     }
   ],
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/factory"
-    },
-    "fired": {
-      "audio_cue": "/SE/Weapons/structure/anti_nuke_launcher_fire"
-    },
-    "died": {
-      "audio_cue": "/SE/Death/Factory",
-      "effect_spec": "/pa/effects/specs/default_building_explosion.pfx"
-    }
-  },
-  "audio": {
-    "loops": {
-      "build": {
-        "cue": "/SE/Construction/Factory_contruction_loop_antinuke",
-        "flag": "build_target_changed",
-        "should_start_func": "has_build_target",
-        "should_stop_func": "no_build_target"
-      }
-    },
-    "selection_response": {
-      "cue": "/SE/Selection/structure/anti_nuke"
-    }
-  },
   "lamps": [
     {
       "offset": [
@@ -202,10 +269,14 @@
   "selection_icon": {
     "diameter": 28.0
   },
-  "TEMP_texelinfo": 21.7597,
   "mesh_bounds": [
     18.5,
     19.5,
-    15
+    14
+  ],
+  "wreckage_mesh_bounds": [
+    18.5,
+    19.5,
+    12
   ]
 }

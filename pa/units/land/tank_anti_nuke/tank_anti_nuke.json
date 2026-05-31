@@ -1,24 +1,11 @@
 {
-  "base_spec": "/pa/units/land/base_vehicle/base_vehicle.json",
   "display_name": "Ward",
   "description": "!LOC:Mobile Anti-Nuke - Launches a single anti-nuclear missile.",
+  "strategic_icon_priority": 1,
   "max_health": 3000,
   "build_metal_cost": 2400,
   "armor_type": "AT_Hover",
-  "attachable": {
-    "offsets": {
-      "root": [
-        0,
-        0,
-        0
-      ],
-      "head": [
-        0,
-        -0.5,
-        6.1
-      ]
-    }
-  },
+  "guard_radius": 50,
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Tank",
@@ -32,19 +19,58 @@
     "UNITTYPE_Hover",
     "UNITTYPE_NukeDefense"
   ],
-  "strategic_icon_priority": 1,
-  "guard_layer": "WL_AnySurface",
+  "command_caps": [
+    "ORDER_Move",
+    "ORDER_Patrol",
+    "ORDER_Attack",
+    "ORDER_Assist",
+    "ORDER_Use"
+  ],
+  "wreckage_health_frac": 1.0,
+  "wreckage": {
+    "remove_ground_cost_stamp": true,
+    "collision": [
+      "none"
+    ]
+  },
   "navigation": {
     "type": "hover",
     "acceleration": 70,
     "brake": 70,
     "move_speed": 10,
     "turn_speed": 60,
+    "dodge_radius": 15,
+    "dodge_multiplier": 1.0,
+    "wobble_factor": 0.1,
+    "wobble_speed": 0.2,
+    "park_stamp": {
+      "shape": "sphere",
+      "cost": 10,
+      "type_data": [
+        {
+          "move_type": "land-small",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "amphibious",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "hover",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "water-hover",
+          "stamp_type": "simple"
+        }
+      ]
+    },
     "turn_accel": 30,
     "group_preference": "back"
   },
   "physics": {
-    "radius": 6
+    "radius": 6,
+    "air_friction": 1.0
   },
   "recon": {
     "observer": {
@@ -70,20 +96,7 @@
       ]
     }
   },
-  "model": {
-    "filename": "/pa/units/land/tank_anti_nuke/tank_anti_nuke.papa",
-    "animations": {
-      "hover": "/pa/units/land/tank_hover/tank_hover_anim_hover.papa"
-    },
-    "animtree": "/pa/anim/anim_trees/tank_anti_nuke_anim_tree.json"
-  },
-  "tools": [
-    {
-      "spec_id": "/pa/units/land/tank_anti_nuke/tank_anti_nuke_tool_weapon.json",
-      "aim_bone": "bone_root",
-      "muzzle_bone": "bone_root"
-    }
-  ],
+  "teleportable": {},
   "events": {
     "build_complete": {
       "audio_cue": "/SE/Build_Complete/veh"
@@ -96,6 +109,10 @@
       "audio_cue": "/SE/Death/Veh",
       "effect_spec": "/pa/effects/specs/default_explosion_bot_t2.pfx",
       "effect_scale": 2
+    },
+    "teleported": {
+      "audio_cue": "/SE/Death/Veh",
+      "effect_spec": "/pa/effects/specs/default_explosion.pfx"
     }
   },
   "audio": {
@@ -111,6 +128,41 @@
       "cue": "/SE/Selection/veh/tank_vagaurd_T2"
     }
   },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_a_01.json"
+    ]
+  },
+  "TEMP_texelinfo": 9.04444,
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ],
+      "head": [
+        0,
+        -0.5,
+        6.1
+      ]
+    }
+  },
+  "guard_layer": "WL_AnySurface",
+  "model": {
+    "filename": "/pa/units/land/tank_anti_nuke/tank_anti_nuke.papa",
+    "animations": {
+      "hover": "/pa/units/land/tank_hover/tank_hover_anim_hover.papa"
+    },
+    "animtree": "/pa/anim/anim_trees/tank_anti_nuke_anim_tree.json"
+  },
+  "tools": [
+    {
+      "spec_id": "/pa/units/land/tank_anti_nuke/tank_anti_nuke_tool_weapon.json",
+      "aim_bone": "bone_root",
+      "muzzle_bone": "bone_root"
+    }
+  ],
   "fx_offsets": [
     {
       "type": "idle",
@@ -329,7 +381,6 @@
   "selection_icon": {
     "diameter": 24.0
   },
-  "TEMP_texelinfo": 9.04444,
   "mesh_bounds": [
     12,
     14.5,

@@ -5,7 +5,7 @@
     "display_name": "Tallboys Ridiculous Rebalance Mod",
     "description": "Rebalances nukes, anti-nukes, orbital titans, and selected unit costs, health, speed, and damage values.",
     "author": "You",
-    "version": "0.0.5",
+    "version": "0.0.7",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -78,7 +78,8 @@
     },
     {
       "name": "Helios: 10000 metal",
-      "rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
+      "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital.json",
+      "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
       "changes": [
         {
           "path": "build_metal_cost",
@@ -88,8 +89,9 @@
       ]
     },
     {
-      "name": "Helios beam: 25% damage",
-      "rel_path": "pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
+      "name": "Helios beam ammo: 25% damage",
+      "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital_ammo.json",
+      "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
       "changes": [
         {
           "path": "damage",

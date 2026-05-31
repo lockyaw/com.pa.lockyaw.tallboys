@@ -1,39 +1,11 @@
 {
-  "base_spec": "/pa/units/land/base_vehicle/base_vehicle.json",
   "display_name": "Skitter",
   "description": "!LOC:Scout - Fast. Can see far away and detects mines. Does not attack.",
+  "strategic_icon_priority": 3,
   "max_health": 10,
   "build_metal_cost": 37.5,
-  "guard_layer": "WL_AnySurface",
-  "attachable": {
-    "offsets": {
-      "root": [
-        0,
-        0,
-        0
-      ],
-      "head": [
-        0,
-        -0.2,
-        1.6
-      ]
-    }
-  },
-  "command_caps": [
-    "ORDER_Move",
-    "ORDER_Patrol",
-    "ORDER_Assist",
-    "ORDER_Use",
-    "ORDER_Attack"
-  ],
-  "tools": [
-    {
-      "spec_id": "/pa/units/land/land_scout/land_scout_tool_dummy_weapon.json",
-      "aim_bone": "bone_root",
-      "muzzle_bone": "bone_root",
-      "show_range": false
-    }
-  ],
+  "armor_type": "AT_Vehicle",
+  "guard_radius": 0,
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Offense",
@@ -45,19 +17,56 @@
     "UNITTYPE_Basic",
     "UNITTYPE_FactoryBuild"
   ],
-  "transportable": {
-    "size": 1
+  "command_caps": [
+    "ORDER_Move",
+    "ORDER_Patrol",
+    "ORDER_Assist",
+    "ORDER_Use",
+    "ORDER_Attack"
+  ],
+  "wreckage_health_frac": 1.0,
+  "wreckage": {
+    "remove_ground_cost_stamp": true,
+    "collision": [
+      "none"
+    ]
   },
-  "guard_radius": 0,
   "navigation": {
     "type": "land-small",
     "acceleration": 250,
     "brake": 250,
     "move_speed": 50,
-    "turn_speed": 360
+    "turn_speed": 360,
+    "dodge_radius": 15,
+    "dodge_multiplier": 1.0,
+    "wobble_factor": 0.1,
+    "wobble_speed": 0.2,
+    "park_stamp": {
+      "shape": "sphere",
+      "cost": 10,
+      "type_data": [
+        {
+          "move_type": "land-small",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "amphibious",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "hover",
+          "stamp_type": "simple"
+        },
+        {
+          "move_type": "water-hover",
+          "stamp_type": "simple"
+        }
+      ]
+    }
   },
   "physics": {
-    "radius": 3
+    "radius": 3,
+    "air_friction": 1.0
   },
   "recon": {
     "observer": {
@@ -83,14 +92,7 @@
       ]
     }
   },
-  "model": {
-    "filename": "/pa/units/land/land_scout/land_scout.papa",
-    "animations": {
-      "drive": "/pa/units/land/land_scout/land_scout_anim_drive.papa"
-    },
-    "animtree": "/pa/anim/anim_trees/land_scout_anim_tree.json",
-    "arrows": 5
-  },
+  "teleportable": {},
   "events": {
     "build_complete": {
       "audio_cue": "/SE/Build_Complete/veh"
@@ -101,7 +103,12 @@
     },
     "died": {
       "audio_cue": "/SE/Death/Veh_small",
+      "effect_spec": "/pa/effects/specs/default_explosion_bot.pfx",
       "effect_scale": 1.0
+    },
+    "teleported": {
+      "audio_cue": "/SE/Death/Veh",
+      "effect_spec": "/pa/effects/specs/default_explosion.pfx"
     }
   },
   "audio": {
@@ -117,10 +124,49 @@
       "cue": "/SE/Selection/veh/land_scout"
     }
   },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_a_01.json"
+    ]
+  },
+  "TEMP_texelinfo": 4.03457,
+  "guard_layer": "WL_AnySurface",
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ],
+      "head": [
+        0,
+        -0.2,
+        1.6
+      ]
+    }
+  },
+  "tools": [
+    {
+      "spec_id": "/pa/units/land/land_scout/land_scout_tool_dummy_weapon.json",
+      "aim_bone": "bone_root",
+      "muzzle_bone": "bone_root",
+      "show_range": false
+    }
+  ],
+  "transportable": {
+    "size": 1
+  },
+  "model": {
+    "filename": "/pa/units/land/land_scout/land_scout.papa",
+    "animations": {
+      "drive": "/pa/units/land/land_scout/land_scout_anim_drive.papa"
+    },
+    "animtree": "/pa/anim/anim_trees/land_scout_anim_tree.json",
+    "arrows": 5
+  },
   "selection_icon": {
     "diameter": 10.0
   },
-  "TEMP_texelinfo": 4.03457,
   "mesh_bounds": [
     3.5,
     4.5,

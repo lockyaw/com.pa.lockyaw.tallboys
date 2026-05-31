@@ -1,28 +1,12 @@
 {
-  "base_spec": "/pa/units/land/base_bot/base_bot.json",
   "display_name": "Atlas",
   "description": "!LOC:Seismic Titan - Devastating damage to everything nearby. Amphibious. Attacks land, sea, and undersea targets.",
+  "strategic_icon_priority": 3,
   "max_health": 42000,
   "build_metal_cost": 30000,
-  "atrophy_rate": 200.0,
-  "atrophy_cool_down": 15.0,
-  "wreckage_health_frac": 1.0,
+  "armor_type": "AT_Bot",
+  "lod_hide_pixelsize": 32.0,
   "guard_radius": 100,
-  "has_death_effects": true,
-  "attachable": {
-    "offsets": {
-      "root": [
-        0,
-        0,
-        0
-      ],
-      "head": [
-        0,
-        0,
-        3.5
-      ]
-    }
-  },
   "unit_types": [
     "UNITTYPE_Custom58",
     "UNITTYPE_Bot",
@@ -41,15 +25,23 @@
     "ORDER_Attack",
     "ORDER_Assist"
   ],
-  "guard_layer": "WL_AnySurface",
+  "wreckage_health_frac": 1.0,
+  "wreckage": {
+    "remove_ground_cost_stamp": true,
+    "collision": [
+      "none"
+    ]
+  },
   "navigation": {
     "type": "amphibious-large",
     "acceleration": 260,
     "brake": -1.0,
     "move_speed": 13,
     "turn_speed": 60,
-    "turn_accel": 80,
-    "turn_in_place": true,
+    "dodge_radius": 15,
+    "dodge_multiplier": 1.0,
+    "wobble_factor": 0.1,
+    "wobble_speed": 0.2,
     "park_stamp": {
       "shape": "sphere",
       "cost": 10,
@@ -87,10 +79,13 @@
           "stamp_type": "structure"
         }
       ]
-    }
+    },
+    "turn_accel": 80,
+    "turn_in_place": true
   },
   "physics": {
     "radius": 15,
+    "air_friction": 1.0,
     "orient_interp_rate": 60.0
   },
   "recon": {
@@ -111,6 +106,79 @@
       ]
     }
   },
+  "teleportable": null,
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/Titan_Complete"
+    },
+    "fired": {
+      "audio_cue": "",
+      "effect_spec": ""
+    },
+    "died": {
+      "audio_cue": "",
+      "effect_spec": "",
+      "effect_scale": 1.0
+    },
+    "teleported": {
+      "audio_cue": "/SE/Death/Veh",
+      "effect_spec": "/pa/effects/specs/default_explosion.pfx"
+    }
+  },
+  "audio": {
+    "loops": {
+      "move": {
+        "cue": "",
+        "flag": "vel_changed",
+        "should_start_func": "is_moving",
+        "should_stop_func": "is_not_moving"
+      }
+    },
+    "selection_response": {
+      "cue": "/SE/Selection/titan/bot"
+    }
+  },
+  "death": {
+    "decals": [
+      "/pa/effects/specs/scorch_titan_01.json"
+    ]
+  },
+  "fx_offsets": [
+    {
+      "type": "phasing",
+      "filename": "/pa/effects/specs/fab_spray.pfx",
+      "bone": "bone_root",
+      "offset": [
+        0,
+        0,
+        5
+      ],
+      "orientation": [
+        90,
+        0,
+        0
+      ]
+    }
+  ],
+  "TEMP_texelinfo": 113.291,
+  "atrophy_rate": 200.0,
+  "atrophy_cool_down": 15.0,
+  "has_death_effects": true,
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ],
+      "head": [
+        0,
+        0,
+        3.5
+      ]
+    }
+  },
+  "guard_layer": "WL_AnySurface",
   "death_weapon": {
     "ground_ammo_spec": "/pa/units/land/titan_bot/titan_bot_ammo_death.json"
   },
@@ -139,39 +207,6 @@
     }
   ],
   "attack_range_frac": 0.3,
-  "teleportable": null,
-  "events": {
-    "build_complete": {
-      "audio_cue": "/SE/Build_Complete/Titan_Complete"
-    },
-    "fired": {
-      "audio_cue": "",
-      "effect_spec": ""
-    },
-    "died": {
-      "audio_cue": "",
-      "effect_spec": "",
-      "effect_scale": 1.0
-    }
-  },
-  "audio": {
-    "loops": {
-      "move": {
-        "cue": "",
-        "flag": "vel_changed",
-        "should_start_func": "is_moving",
-        "should_stop_func": "is_not_moving"
-      }
-    },
-    "selection_response": {
-      "cue": "/SE/Selection/titan/bot"
-    }
-  },
-  "death": {
-    "decals": [
-      "/pa/effects/specs/scorch_titan_01.json"
-    ]
-  },
   "selection_icon": {
     "diameter": 68.0
   },
@@ -184,6 +219,5 @@
     50,
     65,
     40
-  ],
-  "TEMP_texelinfo": 113.291
+  ]
 }
