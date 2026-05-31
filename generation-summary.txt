@@ -126,3 +126,8 @@ output: pa/units/land/tactical_missile_launcher/tactical_missile_antidrop_ammo.j
   damage: 400 -> 160
   splash_damage: 0 -> 0
   burn_damage: 15 -> 6
+
+[solar_drone: 200% energy production]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\solar_drone\solar_drone.json
+output: pa/units/air/solar_drone/solar_drone.json
+  production.energy: 175 -> 350

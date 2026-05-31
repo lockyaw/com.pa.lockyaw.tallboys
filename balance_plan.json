@@ -354,6 +354,18 @@
           "optional": true
         }
       ]
+    },
+    {
+      "name": "solar_drone: 200% energy production",
+      "source_rel_path": "pa_ex1/units/air/solar_drone/solar_drone.json",
+      "output_rel_path": "pa/units/air/solar_drone/solar_drone.json",
+      "changes": [
+        {
+          "path": "production.energy",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
     }
   ]
 }
