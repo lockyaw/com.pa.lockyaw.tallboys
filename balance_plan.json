@@ -3,9 +3,9 @@
     "context": "server",
     "identifier": "com.pa.lockyaw.tallboys",
     "display_name": "Tallboys Ridiculous Rebalance Mod",
-    "description": "Rebalances nukes, anti-nukes, orbital titans, and selected unit costs, health, speed, and damage values.",
+    "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, and selected unit costs, health, speed, and damage values.",
     "author": "You",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -33,7 +33,7 @@
         {
           "path": "build_metal_cost",
           "op": "multiply",
-          "factor": 0.25
+          "factor": 1.2
         },
         {
           "path": "damage",
@@ -77,14 +77,19 @@
       ]
     },
     {
-      "name": "Helios: 10000 metal",
+      "name": "Helios: 8000 metal, 300% health",
       "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital.json",
       "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
       "changes": [
         {
           "path": "build_metal_cost",
           "op": "set",
-          "value": 10000
+          "value": 8000
+        },
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 3.0
         }
       ]
     },
@@ -229,6 +234,108 @@
           "path": "build_metal_cost",
           "op": "multiply",
           "factor": 0.3
+        }
+      ]
+    },
+    {
+      "name": "orbital_battleship main weapon: orbital/air only",
+      "rel_path": "pa/units/orbital/orbital_battleship/orbital_battleship_tool_weapon.json",
+      "changes": [
+        {
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_Orbital",
+            "WL_Air"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orbital_battleship ground weapon: 10% damage",
+      "rel_path": "pa/units/orbital/orbital_battleship/orbital_battleship_ammo_ground.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.1
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 0.1,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "defense_satellite ground weapon: 10% damage",
+      "rel_path": "pa/units/orbital/defense_satellite/defense_satellite_ammo_ground.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.1
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 0.1,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "ion_defense anti-orbital ammo: 30% damage",
+      "rel_path": "pa/units/orbital/ion_defense/ion_defense_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.3
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 0.3,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "tactical_missile_launcher normal missile: remove orbital targets",
+      "rel_path": "pa/units/land/tactical_missile_launcher/tactical_missile_launcher_tool_weapon.json",
+      "changes": [
+        {
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_LandHorizontal",
+            "WL_WaterSurface"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tactical_missile_launcher anti-orbital missile: 40% damage",
+      "rel_path": "pa/units/land/tactical_missile_launcher/tactical_missile_antidrop_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 0.4
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 0.4,
+          "optional": true
+        },
+        {
+          "path": "burn_damage",
+          "op": "multiply",
+          "factor": 0.4,
+          "optional": true
         }
       ]
     }

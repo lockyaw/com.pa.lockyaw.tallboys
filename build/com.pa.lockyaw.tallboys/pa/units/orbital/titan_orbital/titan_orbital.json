@@ -3,7 +3,7 @@
   "description": "!LOC:Invasion Titan - Can link with a teleporter to send units directly to planet surface. Attacks everything.",
   "strategic_icon_priority": 1,
   "max_health": 39000,
-  "build_metal_cost": 8000,
+  "build_metal_cost": 10000,
   "show_in_orbital_layer": true,
   "enable_orbital_shell": true,
   "influence_radius": 1000,

@@ -1,0 +1,16 @@
+{
+  "ammo_type": "AMMO_Beam",
+  "audio_loop": "/SE/Impacts/laser_blast",
+  "fx_beam_spec": "/pa/units/orbital/defense_satellite/defense_satellite_ammo_orbital_beam.pfx",
+  "fx_collision_spec": "/pa/units/orbital/defense_satellite/defense_satellite_ammo_orbital_beam_hit.pfx",
+  "collision_audio": "/SE/Impacts/laser_blast",
+  "damage": 3,
+  "recon": {
+    "observable": {
+      "ignore_radar": true
+    }
+  },
+  "initial_velocity": 500.0,
+  "max_velocity": 500.0,
+  "collision_check": "target"
+}

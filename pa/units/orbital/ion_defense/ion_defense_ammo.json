@@ -1,0 +1,48 @@
+{
+  "ammo_type": "AMMO_Projectile",
+  "flight_type": "Seeking",
+  "flight_layer": "Air",
+  "spawn_layers": "WL_Air",
+  "model": {
+    "filename": ""
+  },
+  "fx_trail": {
+    "filename": "/pa/units/orbital/ion_defense/ion_defense_proj_trail.pfx",
+    "offset": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "events": {
+    "died": {
+      "effect_spec": "/pa/effects/specs/default_proj_explosion.pfx",
+      "audio_cue": "/SE/Impacts/laser_blast",
+      "effect_specs": "/pa/effects/specs/default_proj_explosion.pfx"
+    }
+  },
+  "recon": {
+    "observable": {
+      "ignore_radar": true
+    }
+  },
+  "physics": {
+    "type": "Projectile",
+    "radius": 1,
+    "gravity_scalar": 1,
+    "add_to_spatial_db": false,
+    "allow_underground": true,
+    "ignore_gravity": true
+  },
+  "damage": 30,
+  "splash_damage": 0,
+  "splash_radius": 0,
+  "splash_damages_allies": false,
+  "lifetime": 3,
+  "initial_velocity": 1000.0,
+  "max_velocity": 1000.0,
+  "turn_rate": 45,
+  "burn_damage": 15,
+  "burn_radius": 2,
+  "burn_duration": 2.5
+}

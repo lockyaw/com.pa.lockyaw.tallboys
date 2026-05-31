@@ -4,7 +4,7 @@
   "si_name": "nuke_launcher_ammo",
   "has_notifications": true,
   "ammo_type": "Projectile",
-  "build_metal_cost": 36000,
+  "build_metal_cost": 7500,
   "flight_type": "Staged",
   "damage": 6600,
   "splash_damage": 6600,

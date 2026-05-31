@@ -1,0 +1,22 @@
+{
+  "tool_type": "TOOL_Weapon",
+  "ammo_id": "/pa/units/orbital/orbital_battleship/orbital_battleship_ammo.json",
+  "target_layers": [
+    "WL_Orbital",
+    "WL_Air"
+  ],
+  "rate_of_fire": 2,
+  "max_range": 130,
+  "range_height": 45,
+  "yaw_rate": 360,
+  "pitch_rate": 360,
+  "yaw_range": 100,
+  "pitch_range": 180,
+  "auto_attack": true,
+  "target_priorities": [
+    "Mobile - Air",
+    "Naval",
+    "Structure - Wall",
+    "Wall"
+  ]
+}

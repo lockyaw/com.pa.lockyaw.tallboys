@@ -1,0 +1,51 @@
+{
+  "ammo_type": "AMMO_Projectile",
+  "flight_type": "Seeking",
+  "flight_layer": "Air",
+  "spawn_layers": "WL_Air",
+  "model": {
+    "filename": "/pa/units/air/missile/missile.papa",
+    "arrows": 3
+  },
+  "fx_trail": {
+    "filename": "/pa/units/orbital/ion_defense/ion_defense_antidrop_ammo_trail.pfx",
+    "offset": [
+      0.0,
+      1.4,
+      0.0
+    ]
+  },
+  "events": {
+    "died": {
+      "effect_spec": "/pa/effects/specs/default_proj_explosion.pfx",
+      "audio_cue": "/SE/Impacts/missile_tactical",
+      "effect_specs": "/pa/effects/specs/default_proj_explosion.pfx"
+    }
+  },
+  "recon": {
+    "observable": {
+      "ignore_radar": true
+    }
+  },
+  "physics": {
+    "type": "Projectile",
+    "radius": 1,
+    "gravity_scalar": 5,
+    "add_to_spatial_db": false,
+    "allow_underground": true,
+    "ignore_gravity": true
+  },
+  "damage": 160,
+  "splash_damage": 0,
+  "splash_radius": 0,
+  "splash_damages_allies": false,
+  "lifetime": 3,
+  "initial_velocity": 10.0,
+  "max_velocity": 400.0,
+  "turn_rate": 720,
+  "burn_damage": 6,
+  "burn_radius": 2,
+  "burn_duration": 2.5,
+  "collision_check": "target",
+  "collision_response": "destroy"
+}

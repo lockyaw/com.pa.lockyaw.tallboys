@@ -1,0 +1,24 @@
+{
+  "ammo_type": "AMMO_Beam",
+  "audio_loop": "/SE/Impacts/laser_blast",
+  "fx_beam_spec": "/pa/units/air/titan_air/titan_air_ammo_beam.pfx",
+  "fx_collision_spec": "/pa/units/air/titan_air/titan_air_ammo_beam_hit.pfx",
+  "collision_audio": "/SE/Impacts/laser_blast",
+  "damage": 1950,
+  "recon": {
+    "observable": {
+      "ignore_radar": true
+    }
+  },
+  "splash_damage": 650,
+  "splash_radius": 50,
+  "full_damage_splash_radius": 5,
+  "damage_volume": {
+    "initial_radius": 5.0,
+    "radius_velocity": 80.0,
+    "radius_accel": 0.0,
+    "delay": 0.1
+  },
+  "collision_check": "enemies",
+  "collision_response": "impact"
+}

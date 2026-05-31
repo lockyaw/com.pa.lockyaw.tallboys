@@ -6,7 +6,7 @@ output: pa/units/land/nuke_launcher/nuke_launcher.json
 [Nuclear Missile: 25% price, 20% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\nuke_launcher\nuke_launcher_ammo.json
 output: pa/units/land/nuke_launcher/nuke_launcher_ammo.json
-  build_metal_cost: 30000 -> 7500
+  build_metal_cost: 30000 -> 36000
   damage: 33000 -> 6600
   splash_damage: 33000 -> 6600
   burn_damage: 200 -> 40
@@ -21,10 +21,11 @@ source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_
 output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json
   build_metal_cost: 5000 -> 625
 
-[Helios: 10000 metal]
+[Helios: 8000 metal, 300% health]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital.json
 output: pa/units/orbital/titan_orbital/titan_orbital.json
-  build_metal_cost: 30000 -> 10000
+  build_metal_cost: 30000 -> 8000
+  max_health: 13000 -> 39000
 
 [Helios beam ammo: 25% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_ammo.json
@@ -84,3 +85,38 @@ output: pa/units/orbital/orbital_battleship/orbital_battleship.json
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tank_anti_nuke\tank_anti_nuke.json
 output: pa/units/land/tank_anti_nuke/tank_anti_nuke.json
   build_metal_cost: 8000 -> 2400
+
+[orbital_battleship main weapon: orbital/air only]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_battleship\orbital_battleship_tool_weapon.json
+output: pa/units/orbital/orbital_battleship/orbital_battleship_tool_weapon.json
+  target_layers: ['WL_Orbital', 'WL_LandHorizontal', 'WL_WaterSurface', 'WL_Air'] -> ['WL_Orbital', 'WL_Air']
+
+[orbital_battleship ground weapon: 10% damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_battleship\orbital_battleship_ammo_ground.json
+output: pa/units/orbital/orbital_battleship/orbital_battleship_ammo_ground.json
+  damage: 300 -> 30
+  splash_damage: 300 -> 30
+
+[defense_satellite ground weapon: 10% damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\defense_satellite\defense_satellite_ammo_ground.json
+output: pa/units/orbital/defense_satellite/defense_satellite_ammo_ground.json
+  damage: 100 -> 10
+  splash_damage: 0 -> 0
+
+[ion_defense anti-orbital ammo: 30% damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\ion_defense\ion_defense_ammo.json
+output: pa/units/orbital/ion_defense/ion_defense_ammo.json
+  damage: 100 -> 30
+  splash_damage: 0 -> 0
+
+[tactical_missile_launcher normal missile: remove orbital targets]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tactical_missile_launcher\tactical_missile_launcher_tool_weapon.json
+output: pa/units/land/tactical_missile_launcher/tactical_missile_launcher_tool_weapon.json
+  target_layers: ['WL_LandHorizontal', 'WL_WaterSurface', 'Orbital'] -> ['WL_LandHorizontal', 'WL_WaterSurface']
+
+[tactical_missile_launcher anti-orbital missile: 40% damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tactical_missile_launcher\tactical_missile_antidrop_ammo.json
+output: pa/units/land/tactical_missile_launcher/tactical_missile_antidrop_ammo.json
+  damage: 400 -> 160
+  splash_damage: 0 -> 0
+  burn_damage: 15 -> 6
