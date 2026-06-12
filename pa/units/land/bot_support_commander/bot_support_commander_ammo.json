@@ -17,7 +17,7 @@
   },
   "events": {
     "died": {
-      "effect_spec": "/pa/effects/specs/default_proj_explosion.pfx",
+      "effect_spec": "/pa/effects/specs/default_explosion.pfx",
       "audio_cue": "/SE/Impacts/missile_tactical",
       "effect_specs": "/pa/effects/specs/default_proj_explosion.pfx"
     }
@@ -35,25 +35,19 @@
     "allow_underground": true,
     "ignore_gravity": true
   },
-  "damage": 28,
-  "splash_damage": 11,
-  "splash_radius": 0.75,
+  "damage": 300,
+  "splash_damage": 300,
+  "splash_radius": 12,
   "splash_damages_allies": false,
   "lifetime": 3.0,
   "initial_velocity": 200.0,
   "max_velocity": 200.0,
   "turn_rate": 720.0,
-  "burn_damage": 15,
+  "burn_damage": 22,
   "burn_radius": 2,
   "burn_duration": 2.5,
   "armor_damage_map": {
-    "AT_Structure": 0.0,
-    "AT_Vehicle": 0.0,
-    "AT_Bot": 0.0,
-    "AT_Naval": 0.0,
-    "AT_Commander": 0.0,
-    "AT_Hover": 0.0
+    "AT_Structure": 1.0
   },
-  "display_name": "!LOC:Galata Anti-Air Missile",
-  "full_damage_splash_radius": 0.75
+  "full_damage_splash_radius": 5
 }

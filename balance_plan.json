@@ -3,9 +3,9 @@
     "context": "server",
     "identifier": "com.pa.lockyaw.tallboys",
     "display_name": "Tallboys Ridiculous Rebalance Mod",
-    "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, and selected unit costs, health, speed, and damage values.",
+    "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, selected unit costs, health, speed, damage values, and support commander stats.",
     "author": "You",
-    "version": "0.0.9",
+    "version": "0.0.12",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -364,6 +364,83 @@
           "path": "production.energy",
           "op": "multiply",
           "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "Colonel build arm: 150% build rate and range",
+      "rel_path": "pa/units/land/bot_support_commander/bot_support_commander_tool_build_arm.json",
+      "changes": [
+        {
+          "path": "construction_demand.energy",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "construction_demand.metal",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "max_range",
+          "op": "multiply",
+          "factor": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Colonel weapon ammo: 150% damage",
+      "rel_path": "pa/units/land/bot_support_commander/bot_support_commander_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 1.5,
+          "optional": true
+        },
+        {
+          "path": "burn_damage",
+          "op": "multiply",
+          "factor": 1.5,
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "Pelican: 1000% health",
+      "rel_path": "pa/units/air/transport/transport.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 10.0
+        }
+      ]
+    },
+    {
+      "name": "Astraeus: 1000% health",
+      "rel_path": "pa/units/orbital/orbital_lander/orbital_lander.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 10.0
+        }
+      ]
+    },
+    {
+      "name": "Locusts: 60% price",
+      "rel_path": "pa/units/land/bot_nanoswarm/bot_nanoswarm.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.6
         }
       ]
     }

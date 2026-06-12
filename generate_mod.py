@@ -2,6 +2,7 @@
 import argparse
 import copy
 import json
+import math
 import shutil
 import sys
 import zipfile
@@ -347,10 +348,11 @@ def normalize_number(value: Any) -> Any:
     if isinstance(value, int):
         return value
     if isinstance(value, float):
-        rounded = round(value, 6)
-        if abs(rounded - round(rounded)) < 0.000001:
-            return int(round(rounded))
-        return rounded
+        return math.floor(value)
+    if isinstance(value, list):
+        return [normalize_number(item) for item in value]
+    if isinstance(value, dict):
+        return {key: normalize_number(item) for key, item in value.items()}
     return value
 
 
@@ -361,7 +363,7 @@ def apply_change(data: JsonObject, change: JsonObject) -> str:
 
     if operation == "set_or_add":
         old_value = get_nested(data, dotted_path, optional=True)
-        new_value = change["value"]
+        new_value = normalize_number(change["value"])
         set_or_add_nested(data, dotted_path, new_value)
         if old_value is None:
             return f"{dotted_path}: added {new_value!r}"
@@ -377,7 +379,7 @@ def apply_change(data: JsonObject, change: JsonObject) -> str:
             raise TypeError(f"Cannot multiply non-numeric value at {dotted_path}: {old_value!r}")
         new_value = normalize_number(float(old_value) * float(change["factor"]))
     elif operation == "set":
-        new_value = change["value"]
+        new_value = normalize_number(change["value"])
     else:
         raise ValueError(f"Unsupported operation: {operation}")
 

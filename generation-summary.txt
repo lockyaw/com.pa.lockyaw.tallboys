@@ -36,7 +36,7 @@ output: pa/units/orbital/titan_orbital/titan_orbital.json
 [Helios beam ammo: 25% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_ammo.json
 output: pa/units/orbital/titan_orbital/titan_orbital_ammo.json
-  damage: 55 -> 13.75
+  damage: 55 -> 13
 
 [support_platform: 200% price]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\support_platform\support_platform.json
@@ -57,8 +57,8 @@ output: pa/units/air/titan_air/titan_air_ammo.json
 [Galata Turret: 115% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\air_defense\air_defense_ammo.json
 output: pa/units/land/air_defense/air_defense_ammo.json
-  damage: 25 -> 28.75
-  splash_damage: 10 -> 11.5
+  damage: 25 -> 28
+  splash_damage: 10 -> 11
 
 [tactical_missile_launcher: 110% price]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tactical_missile_launcher\tactical_missile_launcher.json
@@ -68,7 +68,7 @@ output: pa/units/land/tactical_missile_launcher/tactical_missile_launcher.json
 [land_scout: 50% price, 200% speed]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\land_scout\land_scout.json
 output: pa/units/land/land_scout/land_scout.json
-  build_metal_cost: 75 -> 37.5
+  build_metal_cost: 75 -> 37
   navigation.move_speed: 25 -> 50
 
 [teleporter: 150% health, 80% price]
@@ -131,3 +131,32 @@ output: pa/units/land/tactical_missile_launcher/tactical_missile_antidrop_ammo.j
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\solar_drone\solar_drone.json
 output: pa/units/air/solar_drone/solar_drone.json
   production.energy: 175 -> 350
+
+[Colonel build arm: 150% build rate and range]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\bot_support_commander\bot_support_commander_tool_build_arm.json
+output: pa/units/land/bot_support_commander/bot_support_commander_tool_build_arm.json
+  construction_demand.energy: 2500 -> 3750
+  construction_demand.metal: 80 -> 120
+  max_range: 45 -> 67
+
+[Colonel weapon ammo: 150% damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\bot_support_commander\bot_support_commander_ammo.json
+output: pa/units/land/bot_support_commander/bot_support_commander_ammo.json
+  damage: 200 -> 300
+  splash_damage: 200 -> 300
+  burn_damage: 15 -> 22
+
+[Pelican: 1000% health]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\transport\transport.json
+output: pa/units/air/transport/transport.json
+  max_health: 150 -> 1500
+
+[Astraeus: 1000% health]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_lander\orbital_lander.json
+output: pa/units/orbital/orbital_lander/orbital_lander.json
+  max_health: 150 -> 1500
+
+[Locusts: 60% price]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\bot_nanoswarm\bot_nanoswarm.json
+output: pa/units/land/bot_nanoswarm/bot_nanoswarm.json
+  build_metal_cost: 500 -> 300

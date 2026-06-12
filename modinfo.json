@@ -2,9 +2,9 @@
   "context": "server",
   "identifier": "com.pa.lockyaw.tallboys",
   "display_name": "Tallboys Ridiculous Rebalance Mod",
-  "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, and selected unit costs, health, speed, and damage values.",
+  "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, selected unit costs, health, speed, damage values, and support commander stats.",
   "author": "You",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "build": "124635",
   "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
   "category": [
