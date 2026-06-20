@@ -27,16 +27,17 @@ source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_
 output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json
   build_metal_cost: 5000 -> 625
 
-[Helios: 8000 metal, 300% health]
+[Helios: 400% cost, 400% health]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital.json
 output: pa/units/orbital/titan_orbital/titan_orbital.json
-  build_metal_cost: 30000 -> 8000
-  max_health: 13000 -> 39000
+  build_metal_cost: 30000 -> 120000
+  planetary_arrival_cooldown_time: 3.0 -> 15
+  max_health: 13000 -> 52000
 
-[Helios beam ammo: 25% damage]
+[Helios beam ammo: 1% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_ammo.json
 output: pa/units/orbital/titan_orbital/titan_orbital_ammo.json
-  damage: 55 -> 13
+  damage: 55 -> 0
 
 [support_platform: 200% price]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\support_platform\support_platform.json
@@ -115,10 +116,10 @@ output: pa/units/orbital/ion_defense/ion_defense_ammo.json
   damage: 100 -> 30
   splash_damage: 0 -> 0
 
-[tactical_missile_launcher normal missile: remove orbital targets]
+[tactical_missile_launcher normal missile: can target orbital units]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tactical_missile_launcher\tactical_missile_launcher_tool_weapon.json
 output: pa/units/land/tactical_missile_launcher/tactical_missile_launcher_tool_weapon.json
-  target_layers: ['WL_LandHorizontal', 'WL_WaterSurface', 'Orbital'] -> ['WL_LandHorizontal', 'WL_WaterSurface']
+  target_layers: ['WL_LandHorizontal', 'WL_WaterSurface', 'Orbital'] -> ['WL_LandHorizontal', 'WL_WaterSurface', 'WL_Orbital']
 
 [tactical_missile_launcher anti-orbital missile: 40% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\tactical_missile_launcher\tactical_missile_antidrop_ammo.json
@@ -145,6 +146,11 @@ output: pa/units/land/bot_support_commander/bot_support_commander_ammo.json
   damage: 200 -> 300
   splash_damage: 200 -> 300
   burn_damage: 15 -> 22
+
+[Base Commander: 300% health]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\commanders\base_commander\base_commander.json
+output: pa/units/commanders/base_commander/base_commander.json
+  max_health: 12500 -> 37500
 
 [Pelican: 1000% health]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\transport\transport.json

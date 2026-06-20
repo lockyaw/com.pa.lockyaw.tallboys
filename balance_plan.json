@@ -93,31 +93,36 @@
       ]
     },
     {
-      "name": "Helios: 8000 metal, 300% health",
+      "name": "Helios: 400% cost, 400% health",
       "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital.json",
       "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
       "changes": [
         {
           "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 4.0
+        },
+        {
+          "path": "planetary_arrival_cooldown_time",
           "op": "set",
-          "value": 8000
+          "value": 15.0
         },
         {
           "path": "max_health",
           "op": "multiply",
-          "factor": 3.0
+          "factor": 4.0
         }
       ]
     },
     {
-      "name": "Helios beam ammo: 25% damage",
+      "name": "Helios beam ammo: 1% damage",
       "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital_ammo.json",
       "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
       "changes": [
         {
           "path": "damage",
           "op": "multiply",
-          "factor": 0.25
+          "factor": 0.01
         }
       ]
     },
@@ -319,7 +324,7 @@
       ]
     },
     {
-      "name": "tactical_missile_launcher normal missile: remove orbital targets",
+      "name": "tactical_missile_launcher normal missile: can target orbital units",
       "rel_path": "pa/units/land/tactical_missile_launcher/tactical_missile_launcher_tool_weapon.json",
       "changes": [
         {
@@ -327,7 +332,8 @@
           "op": "set",
           "value": [
             "WL_LandHorizontal",
-            "WL_WaterSurface"
+            "WL_WaterSurface",
+            "WL_Orbital"
           ]
         }
       ]
@@ -408,6 +414,17 @@
           "op": "multiply",
           "factor": 1.5,
           "optional": true
+        }
+      ]
+    },
+    {
+      "name": "Base Commander: 300% health",
+      "rel_path": "pa/units/commanders/base_commander/base_commander.json",
+      "changes": [
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 3.0
         }
       ]
     },

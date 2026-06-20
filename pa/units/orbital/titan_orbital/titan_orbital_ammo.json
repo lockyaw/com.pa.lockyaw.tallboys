@@ -4,7 +4,7 @@
   "fx_beam_spec": "/pa/units/orbital/titan_orbital/titan_orbital_ammo_beam.pfx",
   "fx_collision_spec": "/pa/units/orbital/titan_orbital/titan_orbital_beam_hit.pfx",
   "collision_audio": "/SE/Impacts/laser_blast",
-  "damage": 13,
+  "damage": 0,
   "recon": {
     "observable": {
       "ignore_radar": true

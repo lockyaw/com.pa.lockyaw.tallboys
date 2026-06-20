@@ -3,7 +3,8 @@
   "ammo_id": "/pa/units/land/tactical_missile_launcher/tactical_missile_launcher_ammo.json",
   "target_layers": [
     "WL_LandHorizontal",
-    "WL_WaterSurface"
+    "WL_WaterSurface",
+    "WL_Orbital"
   ],
   "rate_of_fire": 0.25,
   "max_range": 280,
