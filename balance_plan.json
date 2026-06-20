@@ -5,7 +5,7 @@
     "display_name": "Tallboys Ridiculous Rebalance Mod",
     "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, selected unit costs, health, speed, damage values, and support commander stats.",
     "author": "You",
-    "version": "0.0.12",
+    "version": "0.0.15",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -93,14 +93,14 @@
       ]
     },
     {
-      "name": "Helios: 400% cost, 400% health",
+      "name": "Helios: 80000 metal, 400% health",
       "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital.json",
       "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital.json",
       "changes": [
         {
           "path": "build_metal_cost",
-          "op": "multiply",
-          "factor": 4.0
+          "op": "set",
+          "value": 80000
         },
         {
           "path": "planetary_arrival_cooldown_time",
@@ -111,18 +111,6 @@
           "path": "max_health",
           "op": "multiply",
           "factor": 4.0
-        }
-      ]
-    },
-    {
-      "name": "Helios beam ammo: 1% damage",
-      "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital_ammo.json",
-      "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
-      "changes": [
-        {
-          "path": "damage",
-          "op": "multiply",
-          "factor": 0.01
         }
       ]
     },
@@ -273,19 +261,24 @@
       ]
     },
     {
-      "name": "orbital_battleship ground weapon: 10% damage",
-      "rel_path": "pa/units/orbital/orbital_battleship/orbital_battleship_ammo_ground.json",
+      "name": "orbital_battleship ground weapon: buildings only",
+      "rel_path": "pa/units/orbital/orbital_battleship/orbital_battleship_tool_weapon_ground.json",
       "changes": [
         {
-          "path": "damage",
-          "op": "multiply",
-          "factor": 0.1
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_LandHorizontal",
+            "WL_WaterSurface",
+            "WL_SeaFloor"
+          ]
         },
         {
-          "path": "splash_damage",
-          "op": "multiply",
-          "factor": 0.1,
-          "optional": true
+          "path": "target_priorities",
+          "op": "set",
+          "value": [
+            "Structure"
+          ]
         }
       ]
     },
@@ -458,6 +451,144 @@
           "path": "build_metal_cost",
           "op": "multiply",
           "factor": 0.6
+        }
+      ]
+    },
+    {
+      "name": "Kessler: 40 metal",
+      "rel_path": "pa/units/orbital/orbital_mine/orbital_mine.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "set",
+          "value": 40
+        }
+      ]
+    },
+    {
+      "name": "Ragnarok: 75% cost, 200% health",
+      "rel_path": "pa/units/land/titan_structure/titan_structure.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 0.75
+        },
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "Ragnarok weapon: 7 minute charge",
+      "rel_path": "pa/units/land/titan_structure/titan_structure_tool_weapon.json",
+      "changes": [
+        {
+          "path": "ammo_capacity",
+          "op": "set",
+          "value": 420
+        }
+      ]
+    },
+    {
+      "name": "orbital_laser: 150% cost, 200% health",
+      "rel_path": "pa/units/orbital/orbital_laser/orbital_laser.json",
+      "changes": [
+        {
+          "path": "build_metal_cost",
+          "op": "multiply",
+          "factor": 1.5
+        },
+        {
+          "path": "max_health",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "orbital_laser weapon: ground structures only",
+      "rel_path": "pa/units/orbital/orbital_laser/orbital_laser_tool_weapon.json",
+      "changes": [
+        {
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_LandHorizontal",
+            "WL_WaterSurface"
+          ]
+        },
+        {
+          "path": "target_priorities",
+          "op": "set",
+          "value": [
+            "OrbitalDefense",
+            "Nuke | NukeDefense",
+            "Economy"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orbital_laser ammo: 300% damage, 150% splash damage",
+      "rel_path": "pa/units/orbital/orbital_laser/orbital_laser_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 3.0
+        },
+        {
+          "path": "splash_damage",
+          "op": "multiply",
+          "factor": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Artemis: 40 max speed",
+      "rel_path": "pa/units/orbital/orbital_railgun/orbital_railgun.json",
+      "changes": [
+        {
+          "path": "navigation.move_speed",
+          "op": "set",
+          "value": 40
+        }
+      ]
+    },
+    {
+      "name": "Artemis ammo: 200% damage to orbital targets",
+      "rel_path": "pa/units/orbital/orbital_railgun/orbital_railgun_ammo.json",
+      "changes": [
+        {
+          "path": "damage",
+          "op": "multiply",
+          "factor": 2.0
+        }
+      ]
+    },
+    {
+      "name": "Helios weapon: buildings only",
+      "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital_tool_weapon_orbital.json",
+      "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital_tool_weapon_orbital.json",
+      "changes": [
+        {
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_LandHorizontal",
+            "WL_WaterSurface",
+            "WL_Seafloor"
+          ]
+        },
+        {
+          "path": "target_priorities",
+          "op": "set",
+          "value": [
+            "Structure"
+          ]
         }
       ]
     }
