@@ -1,0 +1,21 @@
+{
+  "tool_type": "TOOL_Weapon",
+  "ammo_id": "/pa/units/orbital/titan_orbital/titan_orbital_ammo.json",
+  "target_layers": [
+    "WL_LandHorizontal",
+    "WL_Seafloor"
+  ],
+  "rate_of_fire": 1.5,
+  "max_range": 140,
+  "range_height": 45,
+  "yaw_rate": 0,
+  "pitch_rate": 0,
+  "yaw_range": 0,
+  "pitch_range": 0,
+  "auto_attack": true,
+  "target_priorities": [
+    "Structure"
+  ],
+  "firing_arc_yaw": 360,
+  "firing_arc_pitch": 360
+}

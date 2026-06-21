@@ -1,0 +1,216 @@
+{
+  "display_name": "Artemis",
+  "description": "!LOC:Railgun Platform - Long range with high damage. Very low rate of fire. Uses energy. Attacks orbital.",
+  "strategic_icon_priority": 1,
+  "max_health": 350,
+  "build_metal_cost": 2000,
+  "show_in_orbital_layer": true,
+  "enable_orbital_shell": true,
+  "influence_radius": 1000,
+  "system_velocity_multiplier": 30.0,
+  "gravwell_velocity_multiplier": 10.0,
+  "planetary_arrival_cooldown_time": 3.0,
+  "wreckage_health_frac": 0.0,
+  "armor_type": "AT_Orbital",
+  "guard_radius": 100,
+  "unit_types": [
+    "UNITTYPE_Custom58",
+    "UNITTYPE_Mobile",
+    "UNITTYPE_Offense",
+    "UNITTYPE_Orbital",
+    "UNITTYPE_Fighter",
+    "UNITTYPE_Advanced",
+    "UNITTYPE_FactoryBuild",
+    "UNITTYPE_Interplanetary"
+  ],
+  "command_caps": [
+    "ORDER_Move",
+    "ORDER_Patrol",
+    "ORDER_Attack",
+    "ORDER_Assist"
+  ],
+  "orbital_offset": [
+    {
+      "view_type": "Ally",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_ally.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Unselected Preview",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_unselected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Selected",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_selected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Enemy",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_enemy.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    }
+  ],
+  "navigation": {
+    "type": "orbital",
+    "acceleration": 10,
+    "brake": 10,
+    "move_speed": 40,
+    "turn_speed": 30,
+    "dodge_radius": 10,
+    "dodge_multiplier": 1.0,
+    "wobble_factor": 0.2,
+    "wobble_speed": 0.0,
+    "hover_time": -1.0,
+    "bank_factor": 1,
+    "circle_min_time": 2,
+    "circle_max_time": 4,
+    "turn_in_place": true
+  },
+  "physics": {
+    "radius": 5,
+    "gravity_scalar": 0.001,
+    "air_friction": 1.0,
+    "collision_layers": "WL_Orbital"
+  },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/orbital/orbital"
+    },
+    "sing_selection_response": {
+      "cue": "/SE/UI/plus/sing"
+    }
+  },
+  "events": {
+    "died": {
+      "audio_cue": "/SE/Death/orbital",
+      "effect_spec": "/pa/units/air/base_flyer/base_flyer_death_t2.pfx",
+      "effect_scale": 1.0
+    },
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/orbital"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/orb/orb_railgun_fire",
+      "effect_spec": "/pa/effects/specs/orbital_railgun_muzzle_flash.pfx socket_muzzle"
+    }
+  },
+  "selection_icon": {
+    "vertical_offset": -0.5,
+    "diameter": 30.0
+  },
+  "spawn_layers": "WL_Orbital",
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "guard_layer": "WL_Orbital",
+  "recon": {
+    "observer": {
+      "items": [
+        {
+          "layer": "orbital",
+          "channel": "sight",
+          "shape": "sphere",
+          "radius": 650
+        }
+      ]
+    }
+  },
+  "model": [
+    {
+      "filename": "/pa/units/orbital/orbital_railgun/orbital_railgun.papa",
+      "animtree": "/pa/anim/anim_trees/orbital_railgun_anim_tree.json"
+    }
+  ],
+  "tools": [
+    {
+      "spec_id": "/pa/units/orbital/orbital_railgun/orbital_railgun_tool_weapon.json",
+      "aim_bone": "bone_root",
+      "muzzle_bone": "socket_muzzle"
+    }
+  ],
+  "mesh_bounds": [
+    17,
+    17,
+    7
+  ],
+  "TEMP_texelinfo": 17.7177
+}

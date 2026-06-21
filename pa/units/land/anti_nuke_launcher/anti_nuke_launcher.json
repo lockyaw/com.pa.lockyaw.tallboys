@@ -18,7 +18,8 @@
     "UNITTYPE_Factory",
     "UNITTYPE_FabAdvBuild",
     "UNITTYPE_CombatFabAdvBuild",
-    "UNITTYPE_Important"
+    "UNITTYPE_Important",
+    "UNITTYPE_FabOrbBuild"
   ],
   "physics": {
     "type": "Structure",

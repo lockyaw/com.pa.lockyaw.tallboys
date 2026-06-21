@@ -17,27 +17,23 @@ output: pa/units/land/nuke_launcher/nuke_launcher_ammo.json
   splash_damage: 33000 -> 6600
   burn_damage: 200 -> 40
 
-[Anti-Nuke Launcher: 1/6 price]
+[Anti-Nuke Launcher: 1/6 price, Orbital Fabricator buildable]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\anti_nuke_launcher\anti_nuke_launcher.json
 output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher.json
   build_metal_cost: 12000 -> 2000
+  unit_types: appended 'UNITTYPE_FabOrbBuild'
 
 [Anti-Nuke Missile: 1/8 price]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\anti_nuke_launcher\anti_nuke_launcher_ammo.json
 output: pa/units/land/anti_nuke_launcher/anti_nuke_launcher_ammo.json
   build_metal_cost: 5000 -> 625
 
-[Helios: 400% cost, 400% health]
+[Helios: 80000 metal, 400% health]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital.json
 output: pa/units/orbital/titan_orbital/titan_orbital.json
-  build_metal_cost: 30000 -> 120000
+  build_metal_cost: 30000 -> 80000
   planetary_arrival_cooldown_time: 3.0 -> 15
   max_health: 13000 -> 52000
-
-[Helios beam ammo: 1% damage]
-source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_ammo.json
-output: pa/units/orbital/titan_orbital/titan_orbital_ammo.json
-  damage: 55 -> 0
 
 [support_platform: 200% price]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\air\support_platform\support_platform.json
@@ -98,11 +94,11 @@ source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_
 output: pa/units/orbital/orbital_battleship/orbital_battleship_tool_weapon.json
   target_layers: ['WL_Orbital', 'WL_LandHorizontal', 'WL_WaterSurface', 'WL_Air'] -> ['WL_Orbital', 'WL_Air']
 
-[orbital_battleship ground weapon: 10% damage]
-source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_battleship\orbital_battleship_ammo_ground.json
-output: pa/units/orbital/orbital_battleship/orbital_battleship_ammo_ground.json
-  damage: 300 -> 30
-  splash_damage: 300 -> 30
+[orbital_battleship ground weapon: buildings only]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_battleship\orbital_battleship_tool_weapon_ground.json
+output: pa/units/orbital/orbital_battleship/orbital_battleship_tool_weapon_ground.json
+  target_layers: ['WL_Air', 'WL_LandHorizontal', 'WL_WaterSurface', 'WL_SeaFloor'] -> ['WL_LandHorizontal', 'WL_WaterSurface', 'WL_SeaFloor']
+  target_priorities: ['Mobile - Air', 'Naval', 'Structure - Wall', 'Wall'] -> ['Structure']
 
 [defense_satellite ground weapon: 10% damage]
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\defense_satellite\defense_satellite_ammo_ground.json
@@ -166,3 +162,88 @@ output: pa/units/orbital/orbital_lander/orbital_lander.json
 source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\bot_nanoswarm\bot_nanoswarm.json
 output: pa/units/land/bot_nanoswarm/bot_nanoswarm.json
   build_metal_cost: 500 -> 300
+
+[Kessler: 40 metal]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_mine\orbital_mine.json
+output: pa/units/orbital/orbital_mine/orbital_mine.json
+  build_metal_cost: 300 -> 40
+
+[Ragnarok: 75% cost, 200% health]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\titan_structure\titan_structure.json
+output: pa/units/land/titan_structure/titan_structure.json
+  build_metal_cost: 60000 -> 45000
+  max_health: 15000 -> 30000
+
+[Ragnarok weapon: 7 minute charge]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\titan_structure\titan_structure_tool_weapon.json
+output: pa/units/land/titan_structure/titan_structure_tool_weapon.json
+  ammo_capacity: 56 -> 420
+
+[orbital_laser: 150% cost, 200% health]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_laser\orbital_laser.json
+output: pa/units/orbital/orbital_laser/orbital_laser.json
+  build_metal_cost: 4000 -> 6000
+  max_health: 1100 -> 2200
+
+[orbital_laser weapon: ground structures only]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_laser\orbital_laser_tool_weapon.json
+output: pa/units/orbital/orbital_laser/orbital_laser_tool_weapon.json
+  target_layers: ['WL_LandHorizontal', 'WL_WaterSurface', 'WL_Air'] -> ['WL_LandHorizontal', 'WL_WaterSurface']
+  target_priorities: ['Commander', 'OrbitalDefense', 'Nuke | NukeDefense', 'Economy'] -> ['OrbitalDefense', 'Nuke | NukeDefense', 'Economy']
+
+[orbital_laser ammo: 300% damage, 150% splash damage]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_laser\orbital_laser_ammo.json
+output: pa/units/orbital/orbital_laser/orbital_laser_ammo.json
+  damage: 1000 -> 3000
+  splash_damage: 1000 -> 1500
+
+[Artemis: 40 max speed]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_railgun\orbital_railgun.json
+output: pa/units/orbital/orbital_railgun/orbital_railgun.json
+  navigation.move_speed: 30 -> 40
+
+[Artemis ammo: 200% damage to orbital targets]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\orbital_railgun\orbital_railgun_ammo.json
+output: pa/units/orbital/orbital_railgun/orbital_railgun_ammo.json
+  damage: 300 -> 600
+
+[Helios weapon: structures priority, no naval targets]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\orbital\titan_orbital\titan_orbital_tool_weapon_orbital.json
+output: pa/units/orbital/titan_orbital/titan_orbital_tool_weapon_orbital.json
+  target_layers: ['WL_LandHorizontal', 'WL_WaterSurface', 'WL_Seafloor', 'WL_Air', 'WL_Orbital'] -> ['WL_LandHorizontal', 'WL_Seafloor']
+  target_priorities: ['Orbital', 'Land - Wall', 'Naval', 'Structure - Wall', 'Wall', 'Air'] -> ['Structure']
+
+[Typhoon Lob: Lob chassis that launches Typhoon drones]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\artillery_unit_launcher\artillery_unit_launcher.json
+output: pa/units/land/typhoon_lob/typhoon_lob.json
+  display_name: 'Lob' -> '!LOC:Typhoon Lob'
+  description: '!LOC:Dox Launcher - Builds and fires Dox at nearby targets.' -> '!LOC:Drone Launcher - Launches Typhoon missile drones at nearby targets.'
+  tools.0.spec_id: '/pa/units/land/artillery_unit_launcher/artillery_unit_launcher_tool_weapon.json' -> '/pa/units/land/typhoon_lob/typhoon_lob_tool_weapon.json'
+
+[Typhoon Lob weapon: Typhoon drone launch behavior]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\artillery_unit_launcher\artillery_unit_launcher_tool_weapon.json
+output: pa/units/land/typhoon_lob/typhoon_lob_tool_weapon.json
+  ammo_id: '/pa/units/land/artillery_unit_launcher/artillery_unit_launcher_ammo.json' -> '/pa/units/sea/drone_carrier/carrier/carrier_ammo.json'
+  ammo_capacity: 432 -> 300
+  ammo_demand: 13 -> 15
+  ammo_per_shot: 50 -> 30
+  rate_of_fire: 4.5 -> 2
+  max_range: 240 -> 250
+  firing_arc_pitch: 5 -> 180
+  firing_arc_yaw: 0 -> 180
+  firing_standard_deviation: 3.5 -> 0
+  carpet_fire: True -> False
+  carpet_wait_for_full_ammo: True -> False
+  spread_fire: False -> True
+  target_layers: ['WL_LandHorizontal', 'WL_Seafloor', 'WL_WaterSurface', 'WL_Underwater'] -> ['WL_LandHorizontal', 'WL_WaterSurface', 'WL_Air']
+
+[Typhoon Lob: register custom unit]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\unit_list.json
+output: pa/units/unit_list.json
+  units: appended '/pa/units/land/typhoon_lob/typhoon_lob.json'
+
+[Copy file: pa/units/land/typhoon_lob/typhoon_lob_icon_buildbar.png]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\artillery_unit_launcher\artillery_unit_launcher_icon_buildbar.png
+
+[Copy file: pa/units/land/typhoon_lob/typhoon_lob_icon_buildbar.png.settings]
+source: D:\SteamLibrary\steamapps\common\Planetary Annihilation Titans\media\pa_ex1\units\land\artillery_unit_launcher\artillery_unit_launcher_icon_buildbar.png.settings

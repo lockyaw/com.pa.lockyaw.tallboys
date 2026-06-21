@@ -369,6 +369,20 @@ def apply_change(data: JsonObject, change: JsonObject) -> str:
             return f"{dotted_path}: added {new_value!r}"
         return f"{dotted_path}: {old_value!r} -> {new_value!r}"
 
+    if operation == "append_unique":
+        target_list = get_nested(data, dotted_path, optional)
+        if target_list is None and optional:
+            return f"SKIPPED optional missing path: {dotted_path}"
+        if not isinstance(target_list, list):
+            raise TypeError(f"Cannot append to non-list value at {dotted_path}: {target_list!r}")
+
+        new_value = normalize_number(change["value"])
+        if new_value in target_list:
+            return f"{dotted_path}: already contains {new_value!r}"
+
+        target_list.append(new_value)
+        return f"{dotted_path}: appended {new_value!r}"
+
     old_value = get_nested(data, dotted_path, optional)
 
     if old_value is None and optional:
@@ -420,8 +434,9 @@ def ensure_safe_clean(output_dir: Path, clean: bool) -> None:
         )
 
 
-def clean_generated_files(output_dir: Path) -> None:
-    for relative in ["pa", "generation-summary.txt"]:
+def clean_generated_files(output_dir: Path, mod_identifier: str) -> None:
+    generated_ui_dir = Path("ui", "mods", mod_identifier)
+    for relative in ["pa", generated_ui_dir, "generation-summary.txt"]:
         target = output_dir / relative
         if target.is_dir():
             shutil.rmtree(target)
@@ -457,6 +472,20 @@ def plan_actions(plan: JsonObject) -> List[JsonObject]:
     return raw_actions
 
 
+def plan_extra_files(plan: JsonObject) -> List[JsonObject]:
+    raw_files = plan.get("extra_files", [])
+    if not isinstance(raw_files, list):
+        raise ValueError("extra_files must be an array when present.")
+    return raw_files
+
+
+def plan_copy_files(plan: JsonObject) -> List[JsonObject]:
+    raw_files = plan.get("copy_files", [])
+    if not isinstance(raw_files, list):
+        raise ValueError("copy_files must be an array when present.")
+    return raw_files
+
+
 def validate_plan(plan: JsonObject) -> None:
     if "modinfo" not in plan or not isinstance(plan["modinfo"], dict):
         raise ValueError("balance_plan.json requires a modinfo object.")
@@ -471,12 +500,30 @@ def validate_plan(plan: JsonObject) -> None:
         if "changes" not in edit or not isinstance(edit["changes"], list):
             raise ValueError(f"action {index} requires a changes array.")
 
+    for index, extra_file in enumerate(plan_extra_files(plan)):
+        if not isinstance(extra_file, dict):
+            raise ValueError(f"extra_files entry {index} must be an object.")
+        if not isinstance(extra_file.get("rel_path"), str):
+            raise ValueError(f"extra_files entry {index} requires a rel_path string.")
+        if not isinstance(extra_file.get("content"), str):
+            raise ValueError(f"extra_files entry {index} requires string content.")
+
+    for index, copy_file in enumerate(plan_copy_files(plan)):
+        if not isinstance(copy_file, dict):
+            raise ValueError(f"copy_files entry {index} must be an object.")
+        if not isinstance(copy_file.get("source_rel_path"), str):
+            raise ValueError(f"copy_files entry {index} requires a source_rel_path string.")
+        if not isinstance(copy_file.get("output_rel_path"), str):
+            raise ValueError(f"copy_files entry {index} requires an output_rel_path string.")
+
 
 def generate(plan_path: Path, pa_root: Path, output_dir: Path, zip_path: Path | None, clean: bool, clean_generated: bool, prefer_pa_ex1_for_units: bool) -> None:
     plan = load_json(plan_path)
     validate_plan(plan)
 
     planned_json_files: List[Tuple[Path, JsonObject]] = []
+    planned_text_files: List[Tuple[Path, str]] = []
+    planned_copy_files: List[Tuple[Path, Path]] = []
     generated_files: List[Path] = []
 
     planned_json_files.append((Path("modinfo.json"), plan["modinfo"]))
@@ -525,6 +572,37 @@ def generate(plan_path: Path, pa_root: Path, output_dir: Path, zip_path: Path | 
         except Exception as exception:
             errors.append(f"[{action_name}]\n{exception}")
 
+    for extra_file in plan_extra_files(plan):
+        rel_path = extra_file["rel_path"]
+        try:
+            normalized_output_path, output_parts = normalize_rel_path(rel_path)
+            content = extra_file["content"]
+            planned_text_files.append((output_parts, content))
+            generated_files.append(output_parts)
+            summary.append(f"[Extra file: {normalized_output_path}]")
+            summary.append("generated from plan content")
+            summary.append("")
+        except Exception as exception:
+            errors.append(f"[Extra file: {rel_path}]\n{exception}")
+
+    for copy_file in plan_copy_files(plan):
+        source_rel_path = copy_file["source_rel_path"]
+        output_rel_path = copy_file["output_rel_path"]
+        try:
+            normalized_output_path, output_parts = normalize_rel_path(output_rel_path)
+            source_file = resolve_base_file(
+                pa_root=pa_root,
+                source_rel_path=source_rel_path,
+                prefer_pa_ex1_for_units=prefer_pa_ex1_for_units,
+            )
+            planned_copy_files.append((output_parts, source_file))
+            generated_files.append(output_parts)
+            summary.append(f"[Copy file: {normalized_output_path}]")
+            summary.append(f"source: {source_file}")
+            summary.append("")
+        except Exception as exception:
+            errors.append(f"[Copy file: {output_rel_path}]\n{exception}")
+
     if errors:
         message = "\n\n".join(errors)
         raise RuntimeError(
@@ -538,10 +616,23 @@ def generate(plan_path: Path, pa_root: Path, output_dir: Path, zip_path: Path | 
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if clean_generated:
-        clean_generated_files(output_dir)
+        mod_identifier = str(plan["modinfo"].get("identifier", ""))
+        if not mod_identifier:
+            raise ValueError("modinfo.identifier must be a non-empty string when using --clean-generated.")
+        clean_generated_files(output_dir, mod_identifier)
 
     for relative_path, data in planned_json_files:
         write_json(output_dir / relative_path, data)
+
+    for relative_path, content in planned_text_files:
+        target = output_dir / relative_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8", newline="\n")
+
+    for relative_path, source_file in planned_copy_files:
+        target = output_dir / relative_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_file, target)
 
     summary_path = output_dir / "generation-summary.txt"
     summary_path.write_text("\n".join(summary), encoding="utf-8")

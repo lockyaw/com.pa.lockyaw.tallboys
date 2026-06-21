@@ -1,0 +1,218 @@
+{
+  "display_name": "Kessler",
+  "description": "!LOC:Orbital Mine - Self destructs to deal very heavy damage to nearby enemy units",
+  "strategic_icon_priority": 2,
+  "max_health": 80,
+  "wreckage_health_frac": 0.0,
+  "build_metal_cost": 40,
+  "spawn_layers": "WL_Orbital",
+  "armor_type": "AT_Structure",
+  "guard_radius": 300,
+  "unit_types": [
+    "UNITTYPE_Custom58",
+    "UNITTYPE_Structure",
+    "UNITTYPE_Orbital",
+    "UNITTYPE_Defense",
+    "UNITTYPE_OrbitalDefense",
+    "UNITTYPE_FabOrbBuild",
+    "UNITTYPE_SelfDestruct"
+  ],
+  "orbital_offset": [
+    {
+      "view_type": "Ally",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_ally.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Unselected Preview",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_unselected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Selected",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_selected.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 7.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    },
+    {
+      "view_type": "Enemy",
+      "enabled": true,
+      "effect": "particle_line_arrow_transparent_nohdr",
+      "texture": "/pa/effects/textures/particles/uncompressed/orbital_line_enemy.papa",
+      "use_team_color": true,
+      "color_at_ground": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "color_at_unit": [
+        1.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "uv_factor": 64.0,
+      "scale": 3.0,
+      "offset_from_unit": 4.0,
+      "offset_from_ground": 1.0
+    }
+  ],
+  "physics": {
+    "type": "Structure",
+    "shape": "Box",
+    "collision_layers": "WL_Orbital",
+    "radius": 2.25,
+    "air_friction": 1.0,
+    "allow_pushing": true,
+    "push_sideways": false,
+    "allow_underground": false
+  },
+  "recon": {
+    "observable": {
+      "layer": "orbital",
+      "show_ghost": true
+    },
+    "observer": {
+      "items": [
+        {
+          "layer": "orbital",
+          "channel": "sight",
+          "shape": "sphere",
+          "radius": 400
+        }
+      ]
+    }
+  },
+  "events": {
+    "build_complete": {
+      "audio_cue": "/SE/Build_Complete/orbital"
+    },
+    "fired": {
+      "audio_cue": "/SE/Weapons/orb/orb_fighter_fire",
+      "effect_spec": "/pa/effects/specs/default_muzzle_flash.pfx socket_muzzle"
+    },
+    "died": {
+      "audio_cue": "/SE/Death/orbital",
+      "effect_spec": "/pa/effects/specs/default_building_explosion.pfx",
+      "effect_scale": 1.0
+    }
+  },
+  "audio": {
+    "selection_response": {
+      "cue": "/SE/Selection/orbital/orbital"
+    },
+    "sing_selection_response": {
+      "cue": "/SE/UI/plus/sing"
+    }
+  },
+  "selection_icon": {
+    "vertical_offset": 0,
+    "diameter": 22.5
+  },
+  "atrophy_rate": 60,
+  "atrophy_cool_down": 15.0,
+  "gravwell_velocity_multiplier": 6.0,
+  "area_build_type": "Sphere",
+  "area_build_separation": 45,
+  "alt_area_build_type": "Sphere",
+  "alt_area_build_separation": 90.0,
+  "attachable": {
+    "offsets": {
+      "root": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "command_caps": [],
+  "guard_layer": "WL_Orbital",
+  "navigation": {
+    "type": "orbital",
+    "acceleration": 45,
+    "brake": 45,
+    "move_speed": 90,
+    "turn_speed": 120,
+    "circle_min_time": 2,
+    "circle_max_time": 4,
+    "hover_time": -1.0,
+    "aggressive_behavior": "line",
+    "aggressive_distance": 50,
+    "bank_factor": 5
+  },
+  "model": {
+    "layer": "WL_Orbital",
+    "filename": "/pa/units/orbital/orbital_mine/orbital_mine.papa"
+  },
+  "tools": [
+    {
+      "spec_id": "/pa/units/orbital/orbital_mine/orbital_mine_tool_weapon.json",
+      "aim_bone": "bone_root",
+      "muzzle_bone": "bone_root"
+    }
+  ],
+  "placement_size": [
+    15,
+    15
+  ],
+  "TEMP_texelinfo": 6.38702,
+  "mesh_bounds": [
+    9.5,
+    9.5,
+    5
+  ]
+}

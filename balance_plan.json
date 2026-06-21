@@ -3,9 +3,9 @@
     "context": "server",
     "identifier": "com.pa.lockyaw.tallboys",
     "display_name": "Tallboys Ridiculous Rebalance Mod",
-    "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, selected unit costs, health, speed, damage values, and support commander stats.",
+    "description": "Rebalances nukes, anti-nukes, orbital titans, orbital-to-ground weapons, ground-to-orbit weapons, selected unit costs, health, speed, damage values, support commander stats, and adds a Typhoon drone launcher structure. Orbital Fabrication Bots can build Anti-Nuke Launchers.",
     "author": "You",
-    "version": "0.0.15",
+    "version": "0.0.20",
     "build": "124635",
     "icon": "https://raw.githubusercontent.com/lockyaw/com.pa.lockyaw.tallboys/refs/heads/main/icon.png",
     "category": [
@@ -71,13 +71,18 @@
       ]
     },
     {
-      "name": "Anti-Nuke Launcher: 1/6 price",
+      "name": "Anti-Nuke Launcher: 1/6 price, Orbital Fabricator buildable",
       "rel_path": "pa/units/land/anti_nuke_launcher/anti_nuke_launcher.json",
       "changes": [
         {
           "path": "build_metal_cost",
           "op": "multiply",
           "factor": 0.1666666667
+        },
+        {
+          "path": "unit_types",
+          "op": "append_unique",
+          "value": "UNITTYPE_FabOrbBuild"
         }
       ]
     },
@@ -570,7 +575,7 @@
       ]
     },
     {
-      "name": "Helios weapon: buildings only",
+      "name": "Helios weapon: structures priority, no naval targets",
       "source_rel_path": "pa_ex1/units/orbital/titan_orbital/titan_orbital_tool_weapon_orbital.json",
       "output_rel_path": "pa/units/orbital/titan_orbital/titan_orbital_tool_weapon_orbital.json",
       "changes": [
@@ -579,7 +584,6 @@
           "op": "set",
           "value": [
             "WL_LandHorizontal",
-            "WL_WaterSurface",
             "WL_Seafloor"
           ]
         },
@@ -591,6 +595,125 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Typhoon Lob: Lob chassis that launches Typhoon drones",
+      "source_rel_path": "pa/units/land/artillery_unit_launcher/artillery_unit_launcher.json",
+      "output_rel_path": "pa/units/land/typhoon_lob/typhoon_lob.json",
+      "changes": [
+        {
+          "path": "display_name",
+          "op": "set",
+          "value": "!LOC:Typhoon Lob"
+        },
+        {
+          "path": "description",
+          "op": "set",
+          "value": "!LOC:Drone Launcher - Launches Typhoon missile drones at nearby targets."
+        },
+        {
+          "path": "tools.0.spec_id",
+          "op": "set",
+          "value": "/pa/units/land/typhoon_lob/typhoon_lob_tool_weapon.json"
+        }
+      ]
+    },
+    {
+      "name": "Typhoon Lob weapon: Typhoon drone launch behavior",
+      "source_rel_path": "pa/units/land/artillery_unit_launcher/artillery_unit_launcher_tool_weapon.json",
+      "output_rel_path": "pa/units/land/typhoon_lob/typhoon_lob_tool_weapon.json",
+      "changes": [
+        {
+          "path": "ammo_id",
+          "op": "set",
+          "value": "/pa/units/sea/drone_carrier/carrier/carrier_ammo.json"
+        },
+        {
+          "path": "ammo_capacity",
+          "op": "set",
+          "value": 300
+        },
+        {
+          "path": "ammo_demand",
+          "op": "set",
+          "value": 15
+        },
+        {
+          "path": "ammo_per_shot",
+          "op": "set",
+          "value": 30
+        },
+        {
+          "path": "rate_of_fire",
+          "op": "set",
+          "value": 2.0
+        },
+        {
+          "path": "max_range",
+          "op": "set",
+          "value": 250
+        },
+        {
+          "path": "firing_arc_pitch",
+          "op": "set",
+          "value": 180
+        },
+        {
+          "path": "firing_arc_yaw",
+          "op": "set",
+          "value": 180
+        },
+        {
+          "path": "firing_standard_deviation",
+          "op": "set",
+          "value": 0
+        },
+        {
+          "path": "carpet_fire",
+          "op": "set",
+          "value": false
+        },
+        {
+          "path": "carpet_wait_for_full_ammo",
+          "op": "set",
+          "value": false
+        },
+        {
+          "path": "spread_fire",
+          "op": "set_or_add",
+          "value": true
+        },
+        {
+          "path": "target_layers",
+          "op": "set",
+          "value": [
+            "WL_LandHorizontal",
+            "WL_WaterSurface",
+            "WL_Air"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Typhoon Lob: register custom unit",
+      "rel_path": "pa/units/unit_list.json",
+      "changes": [
+        {
+          "path": "units",
+          "op": "append_unique",
+          "value": "/pa/units/land/typhoon_lob/typhoon_lob.json"
+        }
+      ]
+    }
+  ],
+  "copy_files": [
+    {
+      "source_rel_path": "pa/units/land/artillery_unit_launcher/artillery_unit_launcher_icon_buildbar.png",
+      "output_rel_path": "pa/units/land/typhoon_lob/typhoon_lob_icon_buildbar.png"
+    },
+    {
+      "source_rel_path": "pa/units/land/artillery_unit_launcher/artillery_unit_launcher_icon_buildbar.png.settings",
+      "output_rel_path": "pa/units/land/typhoon_lob/typhoon_lob_icon_buildbar.png.settings"
     }
   ]
 }
